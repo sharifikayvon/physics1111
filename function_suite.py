@@ -58,10 +58,6 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
         ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label=lin_label)
         ax.legend()
 
-
-#         lin_label = rf"$y = {lin_coeffs[0]:.3g}x + {lin_coeffs[1]:.3g}$"
-# quad_label = rf"$y = {quad_coeffs[0]:.3g}x^2 + {quad_coeffs[1]:.3g}x + {quad_coeffs[2]:.3g}$"
-    
     if fitquad:      
         quad_coeffs = np.polyfit(xdata, ydata, 2)
         quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
