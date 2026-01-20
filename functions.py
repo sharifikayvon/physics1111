@@ -44,7 +44,7 @@ def fmt(x, sig=3):
 
 def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False, savefig=False):
     fig, ax = plt.subplots(figsize=(12,6))
-    ax.scatter(xdata,ydata, s=10, c='k')
+    ax.scatter(xdata,ydata, s=20, c='k')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
