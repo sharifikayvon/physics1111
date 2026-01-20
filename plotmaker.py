@@ -26,7 +26,11 @@ mpl.rcParams.update({
     "grid.alpha": 0.3,
     "grid.color": "k",
     "grid.linewidth": 0.75,
+    "mathtext.default": "regular"
 })
+
+def fmt(x, sig=4):
+    return f"{x:.{sig}g}" if ((abs(x) >= 1e-4) & (abs(x) <= 1e4)) else f"{x:.{sig}e}"
 
 def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False, savefig=False):
     fig, ax = plt.subplots(figsize=(12,6))
@@ -40,15 +44,19 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
         lin_coeffs = np.polyfit(xdata, ydata, 1)
         lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         lin_yfit = np.polyval(lin_coeffs, lin_xfit)
-        lin_label = f'Linear Fit: y = {lin_coeffs[0]:.3g}x + {lin_coeffs[1]:.3g}' 
+        lin_label = rf'$Linear\ Fit:\ y\ =\ {fmt(lin_coeffs[0])}x\ +\ {fmt(lin_coeffs[1])}$' 
         ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label=lin_label)
         ax.legend()
+
+
+#         lin_label = rf"$y = {lin_coeffs[0]:.3g}x + {lin_coeffs[1]:.3g}$"
+# quad_label = rf"$y = {quad_coeffs[0]:.3g}x^2 + {quad_coeffs[1]:.3g}x + {quad_coeffs[2]:.3g}$"
     
     if fitquad:      
         quad_coeffs = np.polyfit(xdata, ydata, 2)
         quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         quad_yfit = np.polyval(quad_coeffs, quad_xfit)
-        quad_label = f'Quadratic Fit: y = {quad_coeffs[0]:.3g}x² + {quad_coeffs[1]:.3g}x + {quad_coeffs[2]:.3g}'
+        quad_label = rf'$Quadratic\ Fit:\ y\ =\ {fmt(quad_coeffs[0])}x^2\ +\ {fmt(quad_coeffs[1])}x\ +\ {fmt(quad_coeffs[2])}$'
         ax.plot(quad_xfit, quad_yfit, color='b', linestyle='--', label=quad_label)
         ax.legend()
 
