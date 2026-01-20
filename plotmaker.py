@@ -54,6 +54,6 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
 
     if savefig:
         outfile = title.replace(" ", "_") + ".png"
-        plt.savefig(, dpi=300, bbox_inches='tight')
+        plt.savefig(outfile, dpi=300, bbox_inches='tight')
     
     plt.show()
