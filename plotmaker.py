@@ -41,7 +41,6 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
         lin_coeffs = np.polyfit(xdata, ydata, 1)
         lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         lin_yfit = np.polyval(coeffs, xdata)
-
         ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label='Linear Fit')
     
     if fitquad:      
