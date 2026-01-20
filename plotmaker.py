@@ -40,7 +40,7 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
         lin_coeffs = np.polyfit(xdata, ydata, 1)
         lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         lin_yfit = np.polyval(lin_coeffs, lin_xfit)
-        lin_label = f'Linear Fit: y = {lin_coeffs[0]:.2f}x + {lin_coeffs[1]:.2f}' 
+        lin_label = f'Linear Fit: y = {lin_coeffs[0]:.3g}x + {lin_coeffs[1]:.3g}' 
         ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label=lin_label)
         ax.legend()
     
@@ -48,7 +48,7 @@ def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitl
         quad_coeffs = np.polyfit(xdata, ydata, 2)
         quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         quad_yfit = np.polyval(quad_coeffs, quad_xfit)
-        quad_label = f'Quadratic Fit: y = {quad_coeffs[0]:.2f}x² + {quad_coeffs[1]:.2f}x + {quad_coeffs[2]:.2f}'
+        quad_label = f'Quadratic Fit: y = {quad_coeffs[0]:.3g}x² + {quad_coeffs[1]:.3g}x + {quad_coeffs[2]:.3g}'
         ax.plot(quad_xfit, quad_yfit, color='b', linestyle='--', label=quad_label)
         ax.legend()
 
