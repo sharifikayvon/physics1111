@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import numpy as np
 
 mpl.rcParams.update({
     "xtick.top": True,
@@ -27,12 +28,26 @@ mpl.rcParams.update({
     "grid.linewidth": 0.75,
 })
 
-def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title'):
-
+def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False):
     fig, ax = plt.subplots(figsize=(12,6))
     ax.plot(xdata,ydata, marker='o', color='k')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
     ax.grid(True, which='both')
+
+    if fitline:
+
+        lin_coeffs = np.polyfit(xdata, ydata, 1)
+        lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
+        lin_yfit = np.polyval(coeffs, xdata)
+
+        ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label='Linear Fit')
+    
+    if fitquad:      
+        quad_coeffs = np.polyfit(xdata, ydata, 2)
+        quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
+        quad_yfit = np.polyval(quad_coeffs, quad_xfit)
+        ax.plot(quad_xfit, quad_yfit, color='b', linestyle='--', label='Quadratic Fit')
+    
     plt.show()
