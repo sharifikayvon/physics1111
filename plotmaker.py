@@ -28,25 +28,32 @@ mpl.rcParams.update({
     "grid.linewidth": 0.75,
 })
 
-def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False):
+def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False, savefig=False):
     fig, ax = plt.subplots(figsize=(12,6))
-    ax.plot(xdata,ydata, marker='o', color='k')
+    ax.scatter(xdata,ydata, s=10, c='k')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
     ax.grid(True, which='both')
 
     if fitline:
-
         lin_coeffs = np.polyfit(xdata, ydata, 1)
         lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         lin_yfit = np.polyval(lin_coeffs, lin_xfit)
-        ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label='Linear Fit')
+        lin_label = f'Linear Fit: y = {lin_coeffs[0]:.2f}x + {lin_coeffs[1]:.2f}' 
+        ax.plot(lin_xfit, lin_yfit, color='r', linestyle='--', label=lin_label)
+        ax.legend()
     
     if fitquad:      
         quad_coeffs = np.polyfit(xdata, ydata, 2)
         quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         quad_yfit = np.polyval(quad_coeffs, quad_xfit)
-        ax.plot(quad_xfit, quad_yfit, color='b', linestyle='--', label='Quadratic Fit')
+        quad_label = f'Quadratic Fit: y = {quad_coeffs[0]:.2f}x² + {quad_coeffs[1]:.2f}x + {quad_coeffs[2]:.2f}'
+        ax.plot(quad_xfit, quad_yfit, color='b', linestyle='--', label=quad_label)
+        ax.legend()
+
+    if savefig:
+        outfile = title.replace(" ", "_") + ".png"
+        plt.savefig(, dpi=300, bbox_inches='tight')
     
     plt.show()
