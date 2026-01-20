@@ -29,8 +29,18 @@ mpl.rcParams.update({
     "mathtext.default": "regular"
 })
 
+
+def sci_notation(x, sig=4):
+    if x == 0:
+        return "0"
+    s = f"{x:.{sig}e}" 
+    base, exp = s.split("e")
+    exp = int(exp)
+    return rf"({base}\times 10^{{{exp}}})"
+
+
 def fmt(x, sig=4):
-    return f"{x:.{sig}g}" if ((abs(x) >= 1e-4) & (abs(x) <= 1e4)) else f"{x:.{sig}e}"
+    return f"{x:.{sig}g}" if ((abs(x) >= 1e-4) & (abs(x) <= 1e4)) else sci_notation(x)
 
 def makeplot(xdata, ydata, xlabel='x axis', ylabel='y axis', title='Title', fitline=False, fitquad=False, savefig=False):
     fig, ax = plt.subplots(figsize=(12,6))
