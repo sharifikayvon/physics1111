@@ -26,7 +26,8 @@ mpl.rcParams.update({
     "grid.alpha": 0.3,
     "grid.color": "k",
     "grid.linewidth": 0.75,
-    "mathtext.default": "regular"
+    "mathtext.default": "regular",
+    font.family: "Times"
 })
 
 
