@@ -47,7 +47,7 @@ if mode == "Upload data file":
         xdata = df[x_col].values
         ydata = df[y_col].values
 
-elif mode == "Manually enter x/y data":
+elif mode == "Manually enter data":
     st.markdown("Enter values separated by spaces or commas.")
 
     x_str = st.text_area("X values", "1 2 3 4 5")
@@ -60,7 +60,7 @@ elif mode == "Manually enter x/y data":
         xdata = parse_array(x_str)
         ydata = parse_array(y_str)
 
-        if len(x) != len(y):
+        if len(xdata) != len(ydata):
             st.error("X and Y must have the same length.")
             st.stop()
 
