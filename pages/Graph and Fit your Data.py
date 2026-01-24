@@ -47,7 +47,7 @@ def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
         return rf"{sign} {body}"
 
 
-st.title("Graph and Fit your Data")
+st.title("Graph and Fit your Data", text_alignment="center")
 
 mode = st.radio(
     "Choose data input method:",
