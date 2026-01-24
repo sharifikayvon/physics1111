@@ -98,7 +98,7 @@ elif mode == "Manually enter data":
         xdata = parse_array(x_str)
         ydata = parse_array(y_str)
 
-        if len(x) != len(y):
+        if len(xdata) != len(ydata):
             st.error("X and Y must have the same length.")
             st.stop()
 
