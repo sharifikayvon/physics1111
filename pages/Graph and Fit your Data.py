@@ -23,28 +23,92 @@ st.set_page_config(
 # def fmt(x, sig=3):
 #     return f"{x:.{sig}g}" if ((abs(x) >= 1e-4) & (abs(x) <= 1e4)) else sci_notation(x)
 
+# def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
+#     if abs(coef) < tol:
+#         return ""
+
+#     # number formatting
+#     def _fmt(x):
+#         if x == 0:
+#             return "0"
+#         # Use scientific notation if very small or very large
+#         if abs(x) < 1e-4 or abs(x) > 1e4:
+#             base, exp = f"{x:.{sig}e}".split("e")
+#             return rf"({base}\times 10^{{{int(exp)}}})"
+#         return f"{x:.{sig}g}"
+
+#     mag = _fmt(abs(coef))
+
+#     # Remove 1 before x or x^n
+#     if term and mag == "1":
+#         mag = ""
+
+#     # Add parentheses if scientific notation before a term
+#     if term and (mag.startswith("(") or "e" in mag):
+#         mag = f"({mag})"
+
+#     body = rf"{mag}{term}"
+
+#     # Determine sign
+#     if first:
+#         return rf"- {body}" if coef < 0 else body
+#     else:
+#         sign = "-" if coef < 0 else "+"
+#         return rf"{sign} {body}"
+
 def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
+    """Format a single polynomial term with proper signs, parentheses, and skipping 1 before x^n."""
     if abs(coef) < tol:
         return ""
 
-    # number formatting
+    # Number formatting
     def _fmt(x):
         if x == 0:
             return "0"
+        # Use scientific notation if very small or very large
         if abs(x) < 1e-4 or abs(x) > 1e4:
-            b, e = f"{x:.{sig}e}".split("e")
-            return rf"{b}\times 10^{{{int(e)}}}"
+            base, exp = f"{x:.{sig}e}".split("e")
+            return rf"({base}\times 10^{{{int(exp)}}})"
         return f"{x:.{sig}g}"
 
-    sign = "-" if coef < 0 else "+"
     mag = _fmt(abs(coef))
+
+    # Remove 1 before x or x^n
+    if term and mag == "1":
+        mag = ""
+
+    # Wrap numbers in parentheses if scientific notation and before a term
+    if term and (mag.startswith("(") or "e" in mag):
+        mag = f"({mag})"
 
     body = rf"{mag}{term}"
 
+    # Determine sign
     if first:
         return rf"- {body}" if coef < 0 else body
     else:
+        sign = "-" if coef < 0 else "+"
         return rf"{sign} {body}"
+
+
+def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
+    """
+    Format a polynomial from lists of coefficients and term strings.
+    
+    coeffs : list or array of coefficients [a_n, a_{n-1}, ..., a0]
+    terms  : list of term strings ['x^2', 'x', ''] etc.
+    """
+    # find first non-zero coefficient
+    first_idx = next((i for i, c in enumerate(coeffs) if abs(c) >= tol), None)
+    if first_idx is None:
+        return "0"
+
+    parts = []
+    for i, (c, t) in enumerate(zip(coeffs, terms)):
+        is_first = (i == first_idx)
+        parts.append(fmt_term(c, t, sig=sig, tol=tol, first=is_first))
+
+    return "".join(parts)
 
 
 st.title("Graph and Fit your Data", text_alignment="center")
@@ -244,7 +308,8 @@ if fitline:
     lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
     lin_yfit = np.polyval(lin_coeffs, lin_xfit)
     # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt(lin_coeffs[0])}x\ +\ {fmt(lin_coeffs[1])}$"
-    lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt_term(lin_coeffs[0], 'x', first=True)}{fmt_term(lin_coeffs[1])}$"
+    # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt_term(lin_coeffs[0], 'x', first=True)}{fmt_term(lin_coeffs[1])}$"
+    lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
     ax.legend()
 
@@ -253,7 +318,8 @@ if fitquad:
     quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
     quad_yfit = np.polyval(quad_coeffs, quad_xfit)
     # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt(quad_coeffs[0])}x^2\ +\ {fmt(quad_coeffs[1])}x\ +\ {fmt(quad_coeffs[2])}$"
-    quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt_term(quad_coeffs[0], 'x^2', first=True)}{fmt_term(quad_coeffs[1], 'x')}{fmt_term(quad_coeffs[2])}$"
+    # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt_term(quad_coeffs[0], 'x^2', first=True)}{fmt_term(quad_coeffs[1], 'x')}{fmt_term(quad_coeffs[2])}$"
+    quad_label = rf"$Quadratic\ Fit:\ y = {fmt_poly(quad_coeffs, ['x^2','x',''])}$"
     ax.plot(quad_xfit, quad_yfit, color=c2, linestyle="dashed", label=quad_label, lw=3)
     ax.legend()
 
