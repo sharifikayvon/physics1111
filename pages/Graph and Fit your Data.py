@@ -11,50 +11,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# def sci_notation(x, sig=3):
-#     if x == 0:
-#         return "0"
-#     s = f"{x:.{sig}e}"
-#     base, exp = s.split("e")
-#     exp = int(exp)
-#     return rf"({base}\times 10^{{{exp}}})"
-
-
-# def fmt(x, sig=3):
-#     return f"{x:.{sig}g}" if ((abs(x) >= 1e-4) & (abs(x) <= 1e4)) else sci_notation(x)
-
-# def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
-#     if abs(coef) < tol:
-#         return ""
-
-#     # number formatting
-#     def _fmt(x):
-#         if x == 0:
-#             return "0"
-#         # Use scientific notation if very small or very large
-#         if abs(x) < 1e-4 or abs(x) > 1e4:
-#             base, exp = f"{x:.{sig}e}".split("e")
-#             return rf"({base}\times 10^{{{int(exp)}}})"
-#         return f"{x:.{sig}g}"
-
-#     mag = _fmt(abs(coef))
-
-#     # Remove 1 before x or x^n
-#     if term and mag == "1":
-#         mag = ""
-
-#     # Add parentheses if scientific notation before a term
-#     if term and (mag.startswith("(") or "e" in mag):
-#         mag = f"({mag})"
-
-#     body = rf"{mag}{term}"
-
-#     # Determine sign
-#     if first:
-#         return rf"- {body}" if coef < 0 else body
-#     else:
-#         sign = "-" if coef < 0 else "+"
-#         return rf"{sign} {body}"
 
 def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
     """Format a single polynomial term with proper signs, parentheses, and skipping 1 before x^n."""
@@ -73,17 +29,14 @@ def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
 
     mag = _fmt(abs(coef))
 
-    # Remove 1 before x or x^n
     if term and mag == "1":
         mag = ""
 
-    # Wrap numbers in parentheses if scientific notation and before a term
     if term and (mag.startswith("(") or "e" in mag):
         mag = f"({mag})"
 
     body = rf"{mag}{term}"
 
-    # Determine sign
     if first:
         return rf"- {body}" if coef < 0 else body
     else:
