@@ -85,7 +85,7 @@ if mode == "Upload data file":
         xdata = df[x_col].values
         ydata = df[y_col].values
 
-elif mode == "Manually enter x/y data":
+elif mode == "Manually enter data":
     st.markdown("Enter values separated by spaces or commas.")
 
     x_str = st.text_area("X values", "-8 -7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8")
