@@ -6,7 +6,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("PHYS 1111 Data Analysis Tools", text_alignment="center")
+st.title("PHYS 1111 Data Analysis Tools", TextAlignment="center")
 
 
 st.markdown("""
