@@ -5,7 +5,7 @@ st.set_page_config(
     page_icon="🍎",
     layout="wide"
 )
-st.title("PHYS 1111 Data Analysis Tools hello", text_alignment="center")
+st.title("PHYS 1111 Data Analysis Tools", text_alignment="center")
 
 st.write("Normal efg")
 st.write("*Italic efg*")
