@@ -1,5 +1,6 @@
 import streamlit as st
 from pathlib import Path
+import base64
 
 st.set_page_config(
     page_title="phys1111tools",
@@ -8,6 +9,8 @@ st.set_page_config(
 )
 
 font_path = Path(__file__).parent / "Barlow-Regular.ttf"
+font_base64 = base64.b64encode(font_path.read_bytes()).decode()
+
 
 st.markdown(
     f"""
