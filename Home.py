@@ -1,10 +1,36 @@
 import streamlit as st
+from pathlib import Path
 
 st.set_page_config(
     page_title="phys1111tools",
     page_icon="🍎",
     layout="wide"
 )
+
+font_path = Path(__file__).parent / "Barlow-Regular.ttf"
+
+st.markdown(
+    f"""
+    <style>
+    @font-face {{
+        font-family: 'Barlow';
+        src: url('{font_path.as_posix()}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }}
+
+    html, body, [class*="css"]  {{
+        font-family: 'Barlow', sans-serif;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
+
 
 st.title("PHYS 1111 Data Analysis Tools", text_alignment="center")
 

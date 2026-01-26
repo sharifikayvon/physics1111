@@ -136,6 +136,11 @@ fitline = col1.checkbox("Linear Fit", value=False)
 fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
 
+font_path = 'Barlow-Regular.ttf'
+mpl.font_manager.fontManager.addfont(font_path)
+font_prop = mpl.font_manager.FontProperties(fname=font_path)
+plt.rcParams["font.family"] = font_prop.get_name()
+
 mpl.rcParams.update(
     {
             # ===== Figure (outside axes) =====
@@ -191,8 +196,8 @@ mpl.rcParams.update(
             "lines.markersize": 5,
             "lines.color": "black",
             # ===== Fonts / math =====
-            "font.family": "serif",
-            "font.serif": ["DejaVu Sans Mono"],
+            # "font.family": "serif",
+            # "font.serif": ["DejaVu Sans Mono"],
             "mathtext.default": "regular",
             # ===== Legend =====
             "legend.frameon": True,
