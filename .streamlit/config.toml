@@ -3,11 +3,11 @@ enableStaticServing = true
 
 [[theme.fontFaces]]
 family="GoogleSans"
-url="physics1111/static/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf"
+url="app/static/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf"
 style="italic"
 [[theme.fontFaces]]
 family="GoogleSans"
-url="physics1111/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
+url="app/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
 style="normal"
 [[theme.fontFaces]]
 family="GoogleSansCode"
