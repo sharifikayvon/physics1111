@@ -120,7 +120,7 @@ if mode == "Upload data file":
         preview = st.checkbox("Preview Data?", value=False)
         
         if preview:
-            st.data_editor(df.head(), num_rows="dynamic")
+            st.data_editor(df, num_rows="dynamic")
 
         describe = st.checkbox("Data Summary?", value=False)
 
