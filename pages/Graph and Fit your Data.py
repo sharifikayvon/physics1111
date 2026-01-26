@@ -136,7 +136,7 @@ fitline = col1.checkbox("Linear Fit", value=False)
 fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
 
-font_path = 'Barlow-Regular.ttf'
+font_path = 'static/Barlow-Regular.ttf'
 mpl.font_manager.fontManager.addfont(font_path)
 font_prop = mpl.font_manager.FontProperties(fname=font_path)
 plt.rcParams["font.family"] = font_prop.get_name()
