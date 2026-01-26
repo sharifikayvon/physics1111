@@ -1,0 +1,23 @@
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family="GoogleSans"
+url="app/static/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf"
+style="italic"
+[[theme.fontFaces]]
+family="GoogleSans"
+url="app/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
+style="normal"
+[[theme.fontFaces]]
+family="GoogleSansCode"
+url="app/static/GoogleSansCode-VariableFont_wght.ttf"
+style="normal"
+[[them.fontFaces]]
+family="GoogleSansCode"
+url="app/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
+style="italic"
+
+[theme]
+font="GoogleSans"
+codeFont="GoogleSansCode"
