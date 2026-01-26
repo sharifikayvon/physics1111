@@ -1,6 +1,28 @@
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family="GoogleSans"
+url="physics1111/static/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf"
+style="italic"
+[[theme.fontFaces]]
+family="GoogleSans"
+url="physics1111/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
+style="normal"
+[[theme.fontFaces]]
+family="GoogleSansCode"
+url="physics1111/static/GoogleSansCode-VariableFont_wght.ttf"
+style="normal"
+[[them.fontFaces]]
+family="GoogleSansCode"
+url="physics1111/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
+style="italic"
+
+
 [theme]
 primaryColor = "rgb(0, 57, 166)"
 backgroundColor = "#FFFFFF"
 secondaryBackgroundColor = "rgb(204, 204, 204)"
 textColor = "#rgb(0, 57, 166)"
-font = "sans serif"
+font="GoogleSans"
+codeFont="GoogleSansCode"
