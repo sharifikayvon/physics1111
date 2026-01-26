@@ -73,6 +73,35 @@ mode = st.radio(
 )
 
 
+# if mode == "Upload data file":
+#     uploaded_file = st.file_uploader(
+#         "Upload a data file (.csv, .txt, .xlsx)",
+#         type=["csv", "txt", "xlsx"]
+#     )
+
+#     if uploaded_file is not None:
+
+#         if uploaded_file.name.endswith(".xlsx"):
+#             df = pd.read_excel(uploaded_file)
+#         elif uploaded_file.name.endswith(".txt"):
+#             df = pd.read_csv(uploaded_file, sep="\s+")
+#         else:
+#             df = pd.read_csv(uploaded_file, sep=",")
+#         preview = st.checkbox("Preview Data?", value=False)
+#         # st.write("Preview:")
+#         if preview:
+#             st.dataframe(df.head())
+        
+#         describe = st.checkbox("Describe Data?", value=False)
+#         if describe:
+#             st.dataframe(df.describe())
+
+#         x_col = st.selectbox("X column", df.columns)
+#         y_col = st.selectbox("Y column", df.columns)
+
+#         xdata = df[x_col].values
+#         ydata = df[y_col].values
+
 if mode == "Upload data file":
     uploaded_file = st.file_uploader(
         "Upload a data file (.csv, .txt, .xlsx)",
@@ -84,23 +113,51 @@ if mode == "Upload data file":
         if uploaded_file.name.endswith(".xlsx"):
             df = pd.read_excel(uploaded_file)
         elif uploaded_file.name.endswith(".txt"):
-            df = pd.read_csv(uploaded_file, sep="\s+")
+            df = pd.read_csv(uploaded_file, sep=r"\s+")
         else:
-            df = pd.read_csv(uploaded_file, sep=",")
+            df = pd.read_csv(uploaded_file)
+
         preview = st.checkbox("Preview Data?", value=False)
-        # st.write("Preview:")
         if preview:
             st.dataframe(df.head())
-        
+
         describe = st.checkbox("Describe Data?", value=False)
         if describe:
             st.dataframe(df.describe())
 
-        x_col = st.selectbox("X column", df.columns)
-        y_col = st.selectbox("Y column", df.columns)
+        # ---- SESSION STATE INIT ----
+        if "xy_pairs" not in st.session_state:
+            st.session_state.xy_pairs = [{"x": None, "y": None}]
 
-        xdata = df[x_col].values
-        ydata = df[y_col].values
+        # ---- ADD BUTTON ----
+        if st.button("➕ Add another X/Y pair"):
+            st.session_state.xy_pairs.append({"x": None, "y": None})
+
+        # ---- RENDER SELECTORS ----
+        xdata_list = []
+        ydata_list = []
+
+        for i, pair in enumerate(st.session_state.xy_pairs):
+            st.markdown(f"**Data Pair {i+1}**")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                x_col = st.selectbox(
+                    "X column",
+                    df.columns,
+                    key=f"x_col_{i}"
+                )
+
+            with col2:
+                y_col = st.selectbox(
+                    "Y column",
+                    df.columns,
+                    key=f"y_col_{i}"
+                )
+
+            xdata_list.append(df[x_col].values)
+            ydata_list.append(df[y_col].values)
 
 elif mode == "Manually enter data":
     st.markdown("Enter values separated by spaces or commas.")
