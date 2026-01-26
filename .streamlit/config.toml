@@ -11,11 +11,11 @@ url="app/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
 style="normal"
 [[theme.fontFaces]]
 family="GoogleSansCode"
-url="physics1111/static/GoogleSansCode-VariableFont_wght.ttf"
+url="app/static/GoogleSansCode-VariableFont_wght.ttf"
 style="normal"
 [[them.fontFaces]]
 family="GoogleSansCode"
-url="physics1111/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
+url="app/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
 style="italic"
 
 [theme]
