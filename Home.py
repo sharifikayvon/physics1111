@@ -7,6 +7,14 @@ st.set_page_config(
 )
 st.title("PHYS 1111 Data Analysis Tools hello", text_alignment="center")
 
+st.write("Normal efg")
+st.write("*Italic efg*")
+st.write("**Bold efg**")
+st.write("***Bold-italic efg***")
+st.write("`Code normal efg`")
+st.write("*`Code italic efg`*")
+st.write("**`Code bold efg`**")
+st.write("***`Code bold-italic efg`***")
 
 st.markdown("""
 Welcome to the **PHYS 1111 Data Analysis Tools** app! This website was designed to streamline students' daily data visualization and analysis tasks for Dr. Barooni's PHYS 1111 course.
