@@ -118,10 +118,12 @@ if mode == "Upload data file":
             df = pd.read_csv(uploaded_file)
 
         preview = st.checkbox("Preview Data?", value=False)
+        
         if preview:
             st.dataframe(df.head())
 
-        describe = st.checkbox("Describe Data?", value=False)
+        describe = st.checkbox("Data Summary?", value=False)
+
         if describe:
             st.dataframe(df.describe())
 
