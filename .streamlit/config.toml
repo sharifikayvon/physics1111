@@ -18,11 +18,6 @@ family="GoogleSansCode"
 url="physics1111/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
 style="italic"
 
-
 [theme]
-primaryColor = "rgb(0, 57, 166)"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "rgb(204, 204, 204)"
-textColor = "#rgb(0, 57, 166)"
 font="GoogleSans"
 codeFont="GoogleSansCode"
