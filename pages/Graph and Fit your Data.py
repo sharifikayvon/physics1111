@@ -8,7 +8,7 @@ import pandas as pd
 st.set_page_config(
     page_title="Graph and Fit",
     page_icon="🍎",
-    layout="wide"
+    layout="centered"
 )
 
 
