@@ -118,7 +118,7 @@ t = np.linspace(0, delta_t, int(1e6))
 usr_func = st.radio(
     "Specify function to define:", (r"$x(t)$", r"$v(t)$", r"$a(t)$"), horizontal=True
 )
-func_str = st.text_area("", "sin(10*t)")
+func_str = st.text_area("", "sin(5*t)")
 
 x0 = 0
 v0 = 0
