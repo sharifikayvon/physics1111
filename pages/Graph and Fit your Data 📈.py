@@ -6,8 +6,8 @@ from io import BytesIO
 import pandas as pd
 
 st.set_page_config(
-    page_title="Graph and Fit",
-    page_icon="🍎",
+    page_title="Graph and Fit your Data",
+    page_icon="📈",
     layout="centered"
 )
 
@@ -143,17 +143,15 @@ plt.rcParams["font.family"] = font_prop.get_name()
 
 mpl.rcParams.update(
     {
-            # ===== Figure (outside axes) =====
             "figure.dpi": 200,
-            "figure.facecolor": "white",  # outside plot
+            "figure.facecolor": "white",
             "figure.edgecolor": "white",
             "savefig.dpi": 300,
             "savefig.format": "png",
             "savefig.bbox": "tight",
-            "savefig.facecolor": "white",  # saved background
+            "savefig.facecolor": "white", 
             "savefig.edgecolor": "white",
             "figure.autolayout": True,
-            # ===== Axes =====
             "axes.facecolor": "white",
             "axes.edgecolor": "black",
             "axes.linewidth": 1.2,
@@ -164,11 +162,9 @@ mpl.rcParams.update(
             "axes.spines.top": True,
             "axes.spines.right": True,
             "axes.grid": True,
-            # ===== Grid =====
             "grid.color": "black",
             "grid.linewidth": 0.4,
             "grid.alpha": 0.8,
-            # ===== Ticks =====
             "xtick.top": True,
             "ytick.right": True,
             "xtick.direction": "in",
@@ -183,23 +179,18 @@ mpl.rcParams.update(
             "ytick.minor.size": 3,
             "xtick.minor.width": 1,
             "ytick.minor.width": 1,
-            "xtick.color": "black",  # tick marks
+            "xtick.color": "black", 
             "ytick.color": "black",
-            "xtick.labelcolor": "black",  # tick labels
+            "xtick.labelcolor": "black", 
             "ytick.labelcolor": "black",
             "xtick.labelsize": 16,
             "ytick.labelsize": 16,
             "xtick.minor.ndivs": 5,
             "ytick.minor.ndivs": 5,
-            # ===== Lines & markers =====
             "lines.linewidth": 1.5,
             "lines.markersize": 5,
             "lines.color": "black",
-            # ===== Fonts / math =====
-            # "font.family": "serif",
-            # "font.serif": ["DejaVu Sans Mono"],
             "mathtext.default": "regular",
-            # ===== Legend =====
             "legend.frameon": True,
             "legend.fontsize": 12,
             "legend.handlelength": 2,
@@ -219,9 +210,9 @@ c2 = 'orangered'
 if darkmode:
     mpl.rcParams.update(
         {
-            "figure.facecolor": "black",  # outside plot
+            "figure.facecolor": "black",
             "figure.edgecolor": "black",
-            "savefig.facecolor": "black",  # saved background
+            "savefig.facecolor": "black",
             "savefig.edgecolor": "black",
             "axes.facecolor": "black",
             "axes.edgecolor": "white",
@@ -235,8 +226,6 @@ if darkmode:
             "xtick.labelcolor": "white",
             "ytick.labelcolor": "white",
             "lines.color": "white",
-            "font.family": "serif",
-            "font.serif": ["DejaVu Sans Mono"],
             "mathtext.default": "regular",
             "legend.labelcolor": "white",
             "legend.facecolor": "black",
