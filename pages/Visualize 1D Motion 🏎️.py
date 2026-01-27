@@ -67,7 +67,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
     for ax, ylabel, arr, c in zip(axes, ylabels, arrs, cs):
         ax.plot(t[10:-10], arr[10:-10], lw=2, color=c, zorder=100)
         ax.set_ylabel(ylabel, fontsize=14)
-        ax.grid(True, which="major")
+        # ax.grid(False, which="both")
 
         ymin, ymax = ax.get_ylim()
         if ymin < 0 < ymax:
@@ -219,7 +219,7 @@ mpl.rcParams.update(
         "axes.titlecolor": "black",
         "axes.spines.top": True,
         "axes.spines.right": True,
-        "axes.grid": True,
+        "axes.grid": False,
         "grid.color": "black",
         "grid.linewidth": 0.4,
         "grid.alpha": 0.8,
