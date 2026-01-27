@@ -22,7 +22,9 @@ def ensure_array(arr, t):
 
 def makeplot(x_arr, v_arr, a_arr, t, darkmode):
 
-    c = "royalblue"
+    c1 = "royalblue"
+    c2 = "tab:red"
+    c3 = "seagreen"
     czero = "k"
     if darkmode:
         mpl.rcParams.update(
@@ -49,7 +51,9 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
                 "legend.edgecolor": "white",
             }
         )
-        c = "gold"
+        c1 = "gold"
+        c2 = "lightcyan"
+        c3 = "palegreen"
         czero = "gainsboro"
 
     fig, axes = plt.subplots(
@@ -59,9 +63,9 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
     axes[2].set_xlabel("Time (s)", fontsize=14)
     ylabels = ["Position [m]", "Velocity [m/s]", r"Acceleration [m/s$^2$]"]
     arrs = [x_arr, v_arr, a_arr]
-
-    for ax, ylabel, arr in zip(axes, ylabels, arrs):
-        ax.plot(t[10:-10], arr[10:-10], lw=2, color=c)
+    cs = [c1, c2, c3]
+    for ax, ylabel, arr, c in zip(axes, ylabels, arrs, cs):
+        ax.plot(t[10:-10], arr[10:-10], lw=2, color=c, zorder=100)
         ax.set_ylabel(ylabel, fontsize=14)
         ax.grid(True, which="major")
 
