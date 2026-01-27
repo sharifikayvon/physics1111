@@ -5,6 +5,8 @@ import streamlit as st
 from io import BytesIO
 import pandas as pd
 
+# streamlit-page: name="Graph and Fit"
+
 st.set_page_config(
     page_title="Graph and Fit",
     page_icon="🍎",
