@@ -105,8 +105,8 @@ if mode == "Upload data file":
 elif mode == "Manually enter data":
     st.markdown("Enter values separated by spaces or commas.")
 
-    x_str = st.text_area("X values", "-8 -7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8")
-    y_str = st.text_area("Y values", "64 49 36 25 16 9 4 1 0 1 4 9 16 25 36 49 64")
+    x_str = st.text_area("X values", "0 1 2 3 4 5")
+    y_str = st.text_area("Y values", "0 1 4 9 16 25")
 
     def parse_array(s):
         return np.array([float(v) for v in s.replace(",", " ").split()])
