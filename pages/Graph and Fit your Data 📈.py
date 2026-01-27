@@ -142,8 +142,8 @@ ylabel = col2.text_input("Y Label:", "y axis")
 
 
 col1, col2, col3 = st.columns(3)
-fitline = col1.checkbox("Linear Fit", value=False, disabled=not has_valid_xy(xdata, ydata))
-fitquad = col2.checkbox("Quadratic Fit", value=False, disabled=not has_valid_xy(xdata, ydata))
+fitline = col1.checkbox("Linear Fit", value=False )
+fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
 
 font_path = 'static/Barlow-Regular.ttf'
