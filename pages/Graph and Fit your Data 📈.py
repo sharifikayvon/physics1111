@@ -11,6 +11,16 @@ st.set_page_config(
     layout="centered"
 )
 
+def has_valid_xy(x, y):
+    return (
+        x is not None
+        and y is not None
+        and len(x) >= 2
+        and len(y) >= 2
+        and np.all(np.isfinite(x))
+        and np.all(np.isfinite(y))
+    )
+
 
 def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
     """Format a single polynomial term with proper signs, parentheses, and skipping 1 before x^n."""
@@ -250,7 +260,7 @@ ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
 
-if fitline:
+if fitline and has_valid_xy(xdata, ydata):
     lin_coeffs = np.polyfit(xdata, ydata, 1)
     lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
     lin_yfit = np.polyval(lin_coeffs, lin_xfit)
@@ -259,8 +269,10 @@ if fitline:
     lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
     ax.legend()
+elif fitline:
+    st.warning("Cannot fit line: data is empty or invalid")
 
-if fitquad:
+if fitquad and has_valid_xy(xdata, ydata):
     quad_coeffs = np.polyfit(xdata, ydata, 2)
     quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
     quad_yfit = np.polyval(quad_coeffs, quad_xfit)
@@ -269,6 +281,8 @@ if fitquad:
     quad_label = rf"$Quadratic\ Fit:\ y = {fmt_poly(quad_coeffs, ['x^2','x',''])}$"
     ax.plot(quad_xfit, quad_yfit, color=c2, linestyle="dashed", label=quad_label, lw=3)
     ax.legend()
+elif fitquad:
+    st.warning("Cannot fit parabola: data is empty or invalid")
 
 
 st.pyplot(fig)
