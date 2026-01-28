@@ -9,7 +9,7 @@ from sympy.parsing.sympy_parser import parse_expr, standard_transformations, con
 from scipy.integrate import cumulative_trapezoid
 
 
-st.set_page_config(page_title="Visualize 1D Motion", page_icon="🏎️", layout="centered")
+st.set_page_config(page_title="Visualize 1D Motion 🏎️", page_icon="🏎️", layout="centered")
 
 def ensure_array(arr, t):
     """

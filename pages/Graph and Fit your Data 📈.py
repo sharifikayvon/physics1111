@@ -74,7 +74,7 @@ def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
     return "".join(parts)
 
 
-st.title("Graph and Fit your Data", text_alignment="center")
+st.title("Graph and Fit your Data 📈", text_alignment="center")
 
 mode = st.radio(
     "Choose data input method:",
