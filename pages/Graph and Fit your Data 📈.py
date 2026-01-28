@@ -100,7 +100,7 @@ if mode == "Upload data file":
         preview = st.checkbox("Preview Data?", value=False)
         # st.write("Preview:")
         if preview:
-            st.dataframe(df.head())
+            st.dataframe(df.head(), hide_index=True)
         
         describe = st.checkbox("Describe Data?", value=False)
         if describe:
