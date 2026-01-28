@@ -110,7 +110,7 @@ def parse_function(func_str):
         return None, None, f"{func_str} → {e}"
 
 
-st.title("Explore Position, Velocity, and Acceleration", text_alignment="center")
+st.title("Visualize 1D Motion", text_alignment="center")
 
 
 delta_t = st.number_input(r"$\Delta t$:", value=3.0, format="%0.3f", step=0.001)
