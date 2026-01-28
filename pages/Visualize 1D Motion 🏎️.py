@@ -9,7 +9,7 @@ from sympy.parsing.sympy_parser import parse_expr, standard_transformations, con
 from scipy.integrate import cumulative_trapezoid
 
 
-st.set_page_config(page_title="Visualize 1D Motion 🏎️", page_icon="🏎️", layout="centered")
+st.set_page_config(page_title="Visualize 1D Motion", page_icon="🏎️", layout="centered")
 
 def ensure_array(arr, t):
     """
@@ -110,7 +110,7 @@ def parse_function(func_str):
         return None, None, f"{func_str} → {e}"
 
 
-st.title("Visualize 1D Motion", text_alignment="center")
+st.title("Visualize 1D Motion 🏎️", text_alignment="center")
 
 
 delta_t = st.number_input(r"$\Delta t$:", value=3.0, format="%0.3f", step=0.001)
