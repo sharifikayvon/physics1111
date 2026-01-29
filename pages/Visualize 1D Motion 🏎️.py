@@ -194,7 +194,7 @@ a_arr = ensure_array(a_func(t), t)
 
 darkmode = st.checkbox("Dark Mode", value=False)
 
-font_path = "static/GoogleSans-Bold.ttf"
+font_path = "static/GoogleSans-SemiBold.ttf"
 mpl.font_manager.fontManager.addfont(font_path)
 font_prop = mpl.font_manager.FontProperties(fname=font_path)
 plt.rcParams["font.family"] = font_prop.get_name()
