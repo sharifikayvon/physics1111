@@ -122,7 +122,7 @@ family="GoogleSansCode"
 url="app/static/GoogleSansCode-VariableFont_wght.ttf"
 style="normal"
 
-[[them.fontFaces]]
+[[theme.fontFaces]]
 family="GoogleSansCode"
 url="app/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
 style="italic"
