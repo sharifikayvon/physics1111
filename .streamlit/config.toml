@@ -2,131 +2,22 @@
 enableStaticServing = true
 
 [[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Thin.ttf"
-style = "normal"
-weight = 100
-
+family="GoogleSans"
+url="app/static/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf"
+style="italic"
 [[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-ThinItalic.ttf"
-style = "italic"
-weight = 100
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-ExtraLight.ttf"
-style = "normal"
-weight = 200
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-ExtraLightItalic.ttf"
-style = "italic"
-weight = 200
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Light.ttf"
-style = "normal"
-weight = 300
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-LightItalic.ttf"
-style = "italic"
-weight = 300
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Regular.ttf"
-style = "normal"
-weight = 400
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Italic.ttf"
-style = "italic"
-weight = 400
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Medium.ttf"
-style = "normal"
-weight = 500
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-MediumItalic.ttf"
-style = "italic"
-weight = 500
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-SemiBold.ttf"
-style = "normal"
-weight = 600
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-SemiBoldItalic.ttf"
-style = "italic"
-weight = 600
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Bold.ttf"
-style = "normal"
-weight = 700
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-BoldItalic.ttf"
-style = "italic"
-weight = 700
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-ExtraBold.ttf"
-style = "normal"
-weight = 800
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-ExtraBoldItalic.ttf"
-style = "italic"
-weight = 800
-
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-Black.ttf"
-style = "normal"
-weight = 900
-
-[[theme.fontFaces]]
-family = "barlow"
-url = "app/static/Barlow-BlackItalic.ttf"
-style = "italic"
-weight = 900
-
+family="GoogleSans"
+url="app/static/GoogleSans-VariableFont_GRAD,opsz,wght.ttf"
+style="normal"
 [[theme.fontFaces]]
 family="GoogleSansCode"
 url="app/static/GoogleSansCode-VariableFont_wght.ttf"
 style="normal"
-
 [[them.fontFaces]]
 family="GoogleSansCode"
 url="app/static/GoogleSansCode-Italic-VariableFont_wght.ttf"
 style="italic"
 
 [theme]
-font="barlow"
+font="GoogleSans"
 codeFont="GoogleSansCode"
