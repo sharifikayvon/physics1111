@@ -78,7 +78,7 @@ st.title("Graph and Fit your Data 📈", text_alignment="center")
 
 mode = st.radio(
     "Choose data input method:",
-    ("Upload data file", "Manually enter data"),
+    ("Manually enter data", "Upload data file"),
     horizontal=True
 )
 
@@ -145,6 +145,9 @@ col1, col2, col3 = st.columns(3)
 fitline = col1.checkbox("Linear Fit", value=False )
 fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
+force_origin = False
+if fitline:
+    force_origin = st.checkbox("Force y-intercept to 0?", value=False)
 
 font_path = 'static/GoogleSans-Regular.ttf'
 mpl.font_manager.fontManager.addfont(font_path)
@@ -260,13 +263,35 @@ ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
 
+# if fitline and has_valid_xy(xdata, ydata):
+#     lin_coeffs = np.polyfit(xdata, ydata, 1)
+#     lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
+#     lin_yfit = np.polyval(lin_coeffs, lin_xfit)
+#     # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt(lin_coeffs[0])}x\ +\ {fmt(lin_coeffs[1])}$"
+#     # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt_term(lin_coeffs[0], 'x', first=True)}{fmt_term(lin_coeffs[1])}$"
+#     lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
+#     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
+#     ax.legend()
 if fitline and has_valid_xy(xdata, ydata):
-    lin_coeffs = np.polyfit(xdata, ydata, 1)
-    lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
-    lin_yfit = np.polyval(lin_coeffs, lin_xfit)
-    # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt(lin_coeffs[0])}x\ +\ {fmt(lin_coeffs[1])}$"
-    # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt_term(lin_coeffs[0], 'x', first=True)}{fmt_term(lin_coeffs[1])}$"
-    lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
+
+    if force_origin:
+        # constrained fit through (0,0)
+        m = np.dot(xdata, ydata) / np.dot(xdata, xdata)
+        
+        x_min = np.min(xdata)
+        x_max = np.max(xdata)
+        lin_xfit = np.array([x_min, x_max])
+        lin_yfit = m * lin_xfit
+
+        lin_label = rf"$Linear\ Fit:\ y = {fmt_term(m, 'x', first=True)}$"
+
+    else:
+        lin_coeffs = np.polyfit(xdata, ydata, 1)
+        lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
+        lin_yfit = np.polyval(lin_coeffs, lin_xfit)
+
+        lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
+
     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
     ax.legend()
 elif fitline:
