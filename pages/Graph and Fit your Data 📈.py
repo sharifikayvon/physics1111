@@ -147,7 +147,7 @@ fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
 force_origin = False
 if fitline:
-    force_origin = st.checkbox("Set y-intercept to 0?", value=False)
+    force_origin = st.checkbox("Set Linear Fit y-intercept to 0", value=False)
 
 font_path = 'static/GoogleSans-Regular.ttf'
 mpl.font_manager.fontManager.addfont(font_path)
