@@ -1,13 +1,10 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="phys1111toolkit",
-    page_icon="🍎",
-    layout="wide"
-)
-st.title("phys1111 Data Visualization and Analysis Toolkit", text_alignment="center")
+st.set_page_config(page_title="phys1111toolkit", page_icon="🍎", layout="wide")
+st.markdown("<h1 style='text-align: center'>phys1111 Data Visualization and Analysis Toolkit</h1>", unsafe_allow_html=True)
 
-st.markdown("""
+st.markdown(
+    """
 Welcome to the **phys1111 Data Analysis Toolkit**! This website is designed to 
 streamline routine in-class data visualization and analysis tasks for students in 
 Dr. Barooni's Physics 1111 course and to provide interactive demos of course concepts to aid students' understanding.
@@ -21,4 +18,5 @@ Explore the tools using the sidebar on the left. If you have any questions or fe
 More features to be added soon.
 
 
-""")
+"""
+)

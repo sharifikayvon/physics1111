@@ -6,10 +6,9 @@ from io import BytesIO
 import pandas as pd
 
 st.set_page_config(
-    page_title="Graph and Fit your Data",
-    page_icon="📈",
-    layout="centered"
+    page_title="Graph and Fit your Data", page_icon="📈", layout="centered"
 )
+
 
 def has_valid_xy(x, y):
     return (
@@ -57,7 +56,7 @@ def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
 def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
     """
     Format a polynomial from lists of coefficients and term strings.
-    
+
     coeffs : list or array of coefficients [a_n, a_{n-1}, ..., a0]
     terms  : list of term strings ['x^2', 'x', ''] etc.
     """
@@ -68,25 +67,24 @@ def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
 
     parts = []
     for i, (c, t) in enumerate(zip(coeffs, terms)):
-        is_first = (i == first_idx)
+        is_first = i == first_idx
         parts.append(fmt_term(c, t, sig=sig, tol=tol, first=is_first))
 
     return "".join(parts)
 
 
-st.title("Graph and Fit your Data 📈", text_alignment="center")
+st.markdown("<h1 style='text-align: center'>Graph and Fit your Data 📈</h1>", unsafe_allow_html=True)
 
 mode = st.radio(
     "Choose data input method:",
     ("Manually enter data", "Upload data file"),
-    horizontal=True
+    horizontal=True,
 )
 
 
 if mode == "Upload data file":
     uploaded_file = st.file_uploader(
-        "Upload a data file (.csv, .txt, .xlsx)",
-        type=["csv", "txt", "xlsx"]
+        "Upload a data file (.csv, .txt, .xlsx)", type=["csv", "txt", "xlsx"]
     )
 
     if uploaded_file is not None:
@@ -101,7 +99,7 @@ if mode == "Upload data file":
         # st.write("Preview:")
         if preview:
             st.dataframe(df.head(), hide_index=True)
-        
+
         describe = st.checkbox("Describe Data?", value=False)
         if describe:
             st.dataframe(df.describe())
@@ -142,83 +140,83 @@ ylabel = col2.text_input("Y Label:", "y axis")
 
 
 col1, col2, col3 = st.columns(3)
-fitline = col1.checkbox("Linear Fit", value=False )
+fitline = col1.checkbox("Linear Fit", value=False)
 fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
 force_origin = False
 if fitline:
     force_origin = st.checkbox("Set Linear Fit y-intercept to 0", value=False)
 
-font_path = 'static/GoogleSans-Regular.ttf'
+font_path = "static/GoogleSans-Regular.ttf"
 mpl.font_manager.fontManager.addfont(font_path)
 font_prop = mpl.font_manager.FontProperties(fname=font_path)
 plt.rcParams["font.family"] = font_prop.get_name()
 
 mpl.rcParams.update(
     {
-            "figure.dpi": 200,
-            "figure.facecolor": "white",
-            "figure.edgecolor": "white",
-            "savefig.dpi": 300,
-            "savefig.format": "png",
-            "savefig.bbox": "tight",
-            "savefig.facecolor": "white", 
-            "savefig.edgecolor": "white",
-            "figure.autolayout": True,
-            "axes.facecolor": "white",
-            "axes.edgecolor": "black",
-            "axes.linewidth": 1.2,
-            "axes.labelcolor": "black",
-            "axes.labelsize": 20,
-            "axes.titlesize": 20,
-            "axes.titlecolor": "black",
-            "axes.spines.top": True,
-            "axes.spines.right": True,
-            "axes.grid": True,
-            "grid.color": "black",
-            "grid.linewidth": 0.4,
-            "grid.alpha": 0.8,
-            "xtick.top": True,
-            "ytick.right": True,
-            "xtick.direction": "in",
-            "ytick.direction": "in",
-            "xtick.major.size": 6,
-            "ytick.major.size": 6,
-            "xtick.major.width": 1.2,
-            "ytick.major.width": 1.2,
-            "xtick.minor.visible": True,
-            "ytick.minor.visible": True,
-            "xtick.minor.size": 3,
-            "ytick.minor.size": 3,
-            "xtick.minor.width": 1,
-            "ytick.minor.width": 1,
-            "xtick.color": "black", 
-            "ytick.color": "black",
-            "xtick.labelcolor": "black", 
-            "ytick.labelcolor": "black",
-            "xtick.labelsize": 16,
-            "ytick.labelsize": 16,
-            "xtick.minor.ndivs": 5,
-            "ytick.minor.ndivs": 5,
-            "lines.linewidth": 1.5,
-            "lines.markersize": 5,
-            "lines.color": "black",
-            "mathtext.default": "regular",
-            "legend.frameon": True,
-            "legend.fontsize": 12,
-            "legend.handlelength": 2,
-            "legend.labelcolor": "black",
-            "legend.facecolor": "white",
-            "legend.edgecolor": "black",
-            "legend.fancybox": True,
-            "legend.framealpha": 1.0
+        "figure.dpi": 200,
+        "figure.facecolor": "white",
+        "figure.edgecolor": "white",
+        "savefig.dpi": 300,
+        "savefig.format": "png",
+        "savefig.bbox": "tight",
+        "savefig.facecolor": "white",
+        "savefig.edgecolor": "white",
+        "figure.autolayout": True,
+        "axes.facecolor": "white",
+        "axes.edgecolor": "black",
+        "axes.linewidth": 1.2,
+        "axes.labelcolor": "black",
+        "axes.labelsize": 20,
+        "axes.titlesize": 20,
+        "axes.titlecolor": "black",
+        "axes.spines.top": True,
+        "axes.spines.right": True,
+        "axes.grid": True,
+        "grid.color": "black",
+        "grid.linewidth": 0.4,
+        "grid.alpha": 0.8,
+        "xtick.top": True,
+        "ytick.right": True,
+        "xtick.direction": "in",
+        "ytick.direction": "in",
+        "xtick.major.size": 6,
+        "ytick.major.size": 6,
+        "xtick.major.width": 1.2,
+        "ytick.major.width": 1.2,
+        "xtick.minor.visible": True,
+        "ytick.minor.visible": True,
+        "xtick.minor.size": 3,
+        "ytick.minor.size": 3,
+        "xtick.minor.width": 1,
+        "ytick.minor.width": 1,
+        "xtick.color": "black",
+        "ytick.color": "black",
+        "xtick.labelcolor": "black",
+        "ytick.labelcolor": "black",
+        "xtick.labelsize": 16,
+        "ytick.labelsize": 16,
+        "xtick.minor.ndivs": 5,
+        "ytick.minor.ndivs": 5,
+        "lines.linewidth": 1.5,
+        "lines.markersize": 5,
+        "lines.color": "black",
+        "mathtext.default": "regular",
+        "legend.frameon": True,
+        "legend.fontsize": 12,
+        "legend.handlelength": 2,
+        "legend.labelcolor": "black",
+        "legend.facecolor": "white",
+        "legend.edgecolor": "black",
+        "legend.fancybox": True,
+        "legend.framealpha": 1.0,
     }
 )
 
-c = 'k'
-edgecolors = 'gainsboro'
-c1 = 'dodgerblue'
-c2 = 'orangered'
+c = "k"
+edgecolors = "gainsboro"
+c1 = "dodgerblue"
+c2 = "orangered"
 
 if darkmode:
     mpl.rcParams.update(
@@ -242,17 +240,17 @@ if darkmode:
             "mathtext.default": "regular",
             "legend.labelcolor": "white",
             "legend.facecolor": "black",
-            "legend.edgecolor": "white"
+            "legend.edgecolor": "white",
         }
     )
-    c = 'gainsboro'
-    edgecolors = 'w'
-    c1 = 'lime'
+    c = "gainsboro"
+    edgecolors = "w"
+    c1 = "lime"
     c2 = "cyan"
 
-if 'xdata' not in locals() and 'ydata' not in locals():
-    xdata = np.arange(-3*np.pi, 3*np.pi, .05)
-    ydata = np.sin(-.5*xdata) + np.random.normal(0, .15, len(xdata))
+if "xdata" not in locals() and "ydata" not in locals():
+    xdata = np.arange(-3 * np.pi, 3 * np.pi, 0.05)
+    ydata = np.sin(-0.5 * xdata) + np.random.normal(0, 0.15, len(xdata))
     # xdata = np.arange(0,10, 1)
     # ydata = 2 * xdata**2 + 5*xdata + np.random.normal(0, 3, len(xdata))
 
@@ -277,7 +275,7 @@ if fitline and has_valid_xy(xdata, ydata):
     if force_origin:
         # constrained fit through (0,0)
         m = np.dot(xdata, ydata) / np.dot(xdata, xdata)
-        
+
         x_min = np.min(xdata)
         x_max = np.max(xdata)
         lin_xfit = np.array([x_min, x_max])
@@ -313,12 +311,12 @@ elif fitquad:
 st.pyplot(fig)
 
 buf = BytesIO()
-fig.savefig(buf, format='png')
+fig.savefig(buf, format="png")
 buf.seek(0)
 
 st.download_button(
     label="Download Graph",
     data=buf,
     file_name=f"{title.replace(' ', '_')}.png",
-    mime="image/png"
+    mime="image/png",
 )
