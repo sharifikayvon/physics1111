@@ -328,7 +328,7 @@ if makeani:
         "Direction of Motion:", ("Vertical", "Horizontal"), horizontal=True
     )
 
-    frames = 50
+    frames = 80
     ani_t_arr = np.linspace(0, delta_t, frames)
     ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
 
@@ -361,8 +361,15 @@ if makeani:
     else:
         fig_, ax = plt.subplots(figsize=(8, 4), constrained_layout=True)
         color = "gold" if darkmode else "royalblue"
+        ecolor = "gainsboro" if darkmode else "k"
         (ball,) = ax.plot(
-            ani_x_arr[0], [0], "o", markersize=30, color=color, zorder=100
+            ani_x_arr[0],
+            [0],
+            "o",
+            markersize=30,
+            color=color,
+            zorder=100,
+            edgecolor=ecolor,
         )
 
         ax.set_ylim(-1, 1)
