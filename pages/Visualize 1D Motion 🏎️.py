@@ -164,7 +164,7 @@ t = np.linspace(0, delta_t, int(1e6))
 
 
 usr_func = st.radio(
-    "specify function to define:", (r"$a(t)$", r"$v(t)$", r"$x(t)$"), horizontal=True
+    "specify function to define:", ("a(t)", "v(t)", "x(t)"), horizontal=True
 )
 func_str = st.text_area(
     "",
@@ -179,7 +179,7 @@ v0 = 0
 
 t_sym = sp.symbols("t")
 
-if usr_func == r"$x(t)$":
+if usr_func == "x(t)":
 
     ufunc, expr, err = parse_function(func_str)
 
@@ -191,9 +191,9 @@ if usr_func == r"$x(t)$":
     a_func = sp.lambdify(t_sym, a_expr, modules="numpy")
 
 
-elif usr_func == r"$v(t)$":
+elif usr_func == "v(t)":
 
-    x0 = st.number_input(r"$x_0$:", value=0.0, step=0.001, format="%0.3f")
+    x0 = st.number_input(rf"x$_\text{0}$:", value=0.0, step=0.001, format="%0.3f")
 
     ufunc, expr, err = parse_function(func_str)
 
@@ -208,10 +208,10 @@ elif usr_func == r"$v(t)$":
     # x_arr = cumulative_trapezoid(v_arr, t, initial=0.0)
     # x_arr += x0
 
-elif usr_func == r"$a(t)$":
+elif usr_func == "a(t)":
 
-    x0 = st.number_input(r"$x_0$:", value=100.0, step=0.001, format="%0.3f")
-    v0 = st.number_input(r"$v_0$:", value=25.0, step=0.001, format="%0.3f")
+    x0 = st.number_input(rf"$x_0$:", value=100.0, step=0.001, format="%0.3f")
+    v0 = st.number_input(rf"$v_0$:", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
     v_expr = sp.integrate(expr, t_sym) + v0
