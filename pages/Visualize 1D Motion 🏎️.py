@@ -336,7 +336,7 @@ if makeani:
         fig_, ax = plt.subplots(figsize=(6, 8), constrained_layout=True)
         color = "gold" if darkmode else "royalblue"
         (ball,) = ax.plot(
-            [0], [ani_x_arr[0]], "o", markersize=12, color=color, zorder=100
+            [0], [ani_x_arr[0]], "o", markersize=30, color=color, zorder=100
         )
 
         ax.set_xlim(-1, 1)
@@ -362,7 +362,7 @@ if makeani:
         fig_, ax = plt.subplots(figsize=(8, 4), constrained_layout=True)
         color = "gold" if darkmode else "royalblue"
         (ball,) = ax.plot(
-            ani_x_arr[0], [0], "o", markersize=12, color=color, zorder=100
+            ani_x_arr[0], [0], "o", markersize=30, color=color, zorder=100
         )
 
         ax.set_ylim(-1, 1)
