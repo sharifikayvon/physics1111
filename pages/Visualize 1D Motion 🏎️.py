@@ -164,7 +164,7 @@ t = np.linspace(0, delta_t, int(1e6))
 
 
 usr_func = st.radio(
-    "specify function to define:", ("a(t)", "v(t)", "x(t)"), horizontal=True
+    "specify function to define", ("a(t)", "v(t)", "x(t)"), horizontal=True
 )
 func_str = st.text_area(
     "",
