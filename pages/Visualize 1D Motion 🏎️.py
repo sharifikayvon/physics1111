@@ -320,7 +320,7 @@ st.download_button(
 )
 
 makeani = st.checkbox(
-    "make animation", value=False, help="visualize the motion in an animation. Note: will take a while!"
+    "make animation", value=False, help="visualize the motion in an animation. will take a while to generate."
 )
 
 if makeani:
