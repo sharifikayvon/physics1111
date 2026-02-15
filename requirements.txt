@@ -5,5 +5,4 @@ pandas
 matplotlib
 openpyxl
 sympy
-ffmpeg
 scipy
