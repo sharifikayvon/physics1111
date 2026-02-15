@@ -169,7 +169,7 @@ usr_func = st.radio(
 func_str = st.text_area(
     "",
     "-9.8",
-    help="Use t as the variable, e.g. 2*t+4, 5*t^2, sin(t)",
+    help="use t as the variable, e.g. 2*t+4, 5*t^2, sin(t)",
     height=50,
 )
 
