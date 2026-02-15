@@ -193,7 +193,7 @@ if usr_func == "x(t)":
 
 elif usr_func == "v(t)":
 
-    x0 = st.number_input(rf"x$_\text{0}$:", value=0.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀:", value=0.0, step=0.001, format="%0.3f")
 
     ufunc, expr, err = parse_function(func_str)
 
@@ -210,8 +210,8 @@ elif usr_func == "v(t)":
 
 elif usr_func == "a(t)":
 
-    x0 = st.number_input(rf"$x_0$:", value=100.0, step=0.001, format="%0.3f")
-    v0 = st.number_input(rf"$v_0$:", value=25.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀:", value=100.0, step=0.001, format="%0.3f")
+    v0 = st.number_input("v₀:", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
     v_expr = sp.integrate(expr, t_sym) + v0
