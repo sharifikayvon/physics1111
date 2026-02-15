@@ -333,10 +333,18 @@ if makeani:
     ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
 
     if orient == "Vertical":
-        fig_, ax = plt.subplots(figsize=(6, 8), constrained_layout=True)
+        fig_, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
         color = "gold" if darkmode else "royalblue"
+        ecolor = "gainsboro" if darkmode else "k"
         (ball,) = ax.plot(
-            [0], [ani_x_arr[0]], "o", markersize=30, color=color, zorder=100
+            [0],
+            [ani_x_arr[0]],
+            "o",
+            markersize=30,
+            color=color,
+            zorder=100,
+            markeredgecolor=ecolor,
+            markeredgewidth=3,
         )
 
         ax.set_xlim(-1, 1)
@@ -370,7 +378,7 @@ if makeani:
             color=color,
             zorder=100,
             markeredgecolor=ecolor,
-            markeredgewidth=1.5,
+            markeredgewidth=3,
         )
 
         ax.set_ylim(-1, 1)
