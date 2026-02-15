@@ -7,9 +7,12 @@ import pandas as pd
 import sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, convert_xor
 from scipy.integrate import cumulative_trapezoid
+from scipy.signal import find_peaks
+import time
 
 
 st.set_page_config(page_title="Visualize 1D Motion", page_icon="🏎️", layout="centered")
+
 
 def ensure_array(arr, t):
     """
@@ -20,7 +23,24 @@ def ensure_array(arr, t):
         return np.full_like(t, arr, dtype=float)
     return np.array(arr, dtype=float)
 
+
 def makeplot(x_arr, v_arr, a_arr, t, darkmode):
+    tval = st.slider(
+        "",
+        min_value=0.0,
+        max_value=float(max(t)),
+        value=0.4 * float(max(t)),
+        step=0.001,
+        format="t = %.3f s",
+        help="Move the slider to explore x(t), v(t), and a(t) at different time values.",
+    )
+    idx = np.abs(t - tval).argmin()
+    x = x_arr[idx]
+    v = v_arr[idx]
+    a = a_arr[idx]
+
+    t = t[10:-10]
+    arrs = [arr[10:-10] for arr in [x_arr, v_arr, a_arr]]
 
     c1 = "royalblue"
     c2 = "tab:red"
@@ -61,14 +81,36 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
     )
     axes = axes.flatten()
     axes[2].set_xlabel("Time [s]", fontsize=14)
-    ylabels = ["Position [m]", "Velocity [m/s]", r"Acceleration [m/s$^2$]"]
-    arrs = [x_arr, v_arr, a_arr]
+    ylabels = [
+        "Position [m]",
+        "Velocity [m/s]",
+        r"Acceleration [m/s$^2$]",
+    ]
     cs = [c1, c2, c3]
-    for ax, ylabel, arr, c in zip(axes, ylabels, arrs, cs):
-        ax.plot(t[10:-10], arr[10:-10], lw=2, color=c, zorder=100)
+    vals = [x, v, a]
+    labels = [
+        rf"x({tval:.3f} s) = {x:.3f} m",
+        rf"v({tval:.3f} s) = {v:.3f} m/s",
+        rf"a({tval:.3f} s) = {a:.3f} m/s$^2$",
+    ]
+    for i, (ax, ylabel, arr, c, label) in enumerate(
+        zip(axes, ylabels, arrs, cs, labels)
+    ):
+        ax.plot(t, arr, lw=2, color=c, zorder=100)
         ax.set_ylabel(ylabel, fontsize=14)
         # ax.grid(False, which="both")
-
+        ax.axvline(
+            tval,
+            color=czero,
+            alpha=0.8,
+            lw=1,
+            linestyle="--",
+            zorder=1,
+            label=label,
+        )
+        ax.legend(
+            loc="best", fontsize=10, frameon=False, handlelength=0, handletextpad=0
+        )
         ymin, ymax = ax.get_ylim()
         if ymin < 0 < ymax:
             ax.axhline(
@@ -110,19 +152,27 @@ def parse_function(func_str):
         return None, None, f"{func_str} → {e}"
 
 
-st.markdown("<h1 style='text-align: center'>Visualize 1D Motion 🏎️</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<h1 style='text-align: center'>Visualize 1D Motion 🏎️</h1>", unsafe_allow_html=True
+)
 
 
-delta_t = st.number_input(r"$\Delta t$:", value=3.0, format="%0.3f", step=0.001)
+delta_t = st.number_input(r"$t_{max}$:", value=7.80, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
 
 
 usr_func = st.radio(
-    "Specify function to define:", (r"$x(t)$", r"$v(t)$", r"$a(t)$"), horizontal=True
+    "Specify function to define:", (r"$a(t)$", r"$v(t)$", r"$x(t)$"), horizontal=True
 )
-func_str = st.text_area("", "sin(5*t)")
+func_str = st.text_area(
+    "",
+    "-9.8",
+    help="Use t as the variable, e.g. 2*t+4, 5*t^2, sin(t)",
+    height=50,
+)
+
 
 x0 = 0
 v0 = 0
@@ -139,10 +189,6 @@ if usr_func == r"$x(t)$":
     x_func = sp.lambdify(t_sym, expr, modules="numpy")
     v_func = sp.lambdify(t_sym, v_expr, modules="numpy")
     a_func = sp.lambdify(t_sym, a_expr, modules="numpy")
-
-    # x_arr = ufunc(t)
-    # v_arr = np.gradient(x_arr, t)
-    # a_arr = np.gradient(v_arr, t)
 
 
 elif usr_func == r"$v(t)$":
@@ -164,8 +210,8 @@ elif usr_func == r"$v(t)$":
 
 elif usr_func == r"$a(t)$":
 
-    x0 = st.number_input(r"$x_0$:", value=0.0, step=0.001, format="%0.3f")
-    v0 = st.number_input(r"$v_0$:", value=0.0, step=0.001, format="%0.3f")
+    x0 = st.number_input(r"$x_0$:", value=100.0, step=0.001, format="%0.3f")
+    v0 = st.number_input(r"$v_0$:", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
     v_expr = sp.integrate(expr, t_sym) + v0
@@ -263,8 +309,43 @@ mpl.rcParams.update(
 
 fig = makeplot(x_arr, v_arr, a_arr, t, darkmode)
 
+col1, col2 = st.columns([3, 1])
+col1.pyplot(fig)
 
-st.pyplot(fig)
+st.title("1D Motion Animation")
+
+# Playback speed control
+speed = st.slider("Playback speed", 0.1, 3.0, 1.0)
+
+# Start button
+start = st.button("Start animation")
+
+# Placeholder for plot
+plot_placeholder = st.empty()
+
+if start:
+    fig, ax = plt.subplots()
+    ax.set_ylim(np.min(x_arr) - 0.5, np.max(x_arr) + 0.5)
+    ax.set_xlim(-1, 1)  # horizontal axis just for display
+    ax.set_xlabel("")
+    ax.set_ylabel("Position")
+
+    (ball,) = ax.plot(0, x_arr[0], "o", markersize=12)
+
+    prev_t = t[0]
+
+    for i in range(len(t)):
+        # Update ball position (vertical motion)
+        ball.set_data([0], [x_arr[i]])
+
+        plot_placeholder.pyplot(fig)
+
+        # real time delay based on time spacing
+        dt = (t[i] - prev_t) / speed
+        if dt > 0:
+            time.sleep(dt)
+
+        prev_t = t[i]
 
 
 buf = BytesIO()

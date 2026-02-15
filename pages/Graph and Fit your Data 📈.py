@@ -73,7 +73,10 @@ def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
     return "".join(parts)
 
 
-st.markdown("<h1 style='text-align: center'>Graph and Fit your Data 📈</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<h1 style='text-align: center'>Graph and Fit your Data 📈</h1>",
+    unsafe_allow_html=True,
+)
 
 mode = st.radio(
     "Choose data input method:",
@@ -254,7 +257,7 @@ if "xdata" not in locals() and "ydata" not in locals():
     # xdata = np.arange(0,10, 1)
     # ydata = 2 * xdata**2 + 5*xdata + np.random.normal(0, 3, len(xdata))
 
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(8, 6))
 ax.scatter(xdata, ydata, s=100, c=c, edgecolors=edgecolors, lw=3)
 ax.set_xlabel(xlabel)
 ax.set_ylabel(ylabel)
