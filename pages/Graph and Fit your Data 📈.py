@@ -53,7 +53,7 @@ def fmt_term(coef, term="", sig=3, tol=1e-8, first=False):
         return rf"{sign} {body}"
 
 
-def fmt_poly(coeffs, terms, sig=3, tol=1e-8):
+def fmt_poly(coeffs, terms, sig=4, tol=1e-8):
     """
     Format a polynomial from lists of coefficients and term strings.
 
@@ -79,15 +79,15 @@ st.markdown(
 )
 
 mode = st.radio(
-    "Choose data input method:",
-    ("Manually enter data", "Upload data file"),
+    "choose data input method:",
+    ("manually enter data", "upload data file"),
     horizontal=True,
 )
 
 
-if mode == "Upload data file":
+if mode == "upload data file":
     uploaded_file = st.file_uploader(
-        "Upload a data file (.csv, .txt, .xlsx)", type=["csv", "txt", "xlsx"]
+        "upload a data file (.csv, .txt, .xlsx)", type=["csv", "txt", "xlsx"]
     )
 
     if uploaded_file is not None:
@@ -98,23 +98,22 @@ if mode == "Upload data file":
             df = pd.read_csv(uploaded_file, sep="\s+")
         else:
             df = pd.read_csv(uploaded_file, sep=",")
-        preview = st.checkbox("Preview Data?", value=False)
+        preview = st.checkbox("preview data", value=False)
         # st.write("Preview:")
         if preview:
             st.dataframe(df.head(), hide_index=True)
 
-        describe = st.checkbox("Describe Data?", value=False)
+        describe = st.checkbox("describe data", value=False)
         if describe:
             st.dataframe(df.describe())
 
-        x_col = st.selectbox("X column", df.columns)
-        y_col = st.selectbox("Y column", df.columns)
+        x_col = st.selectbox("x column", df.columns)
+        y_col = st.selectbox("y column", df.columns)
 
         xdata = df[x_col].values
         ydata = df[y_col].values
 
-elif mode == "Manually enter data":
-    st.markdown("Enter values separated by spaces or commas.")
+elif mode == "manually enter data":
 
     x_str = st.text_area("x values", "0 1 2 3 4 5")
     y_str = st.text_area("y values", "0 1 4 9 16 25")
@@ -131,7 +130,7 @@ elif mode == "Manually enter data":
             st.stop()
 
     except ValueError:
-        st.error("Could not parse numbers. Please check your input.")
+        st.error("could not parse numbers. please check your input.")
         st.stop()
 
 
@@ -290,19 +289,19 @@ if fitline and has_valid_xy(xdata, ydata):
         lin_xfit = np.array([x_min, x_max])
         lin_yfit = m * lin_xfit
 
-        lin_label = rf"$Linear\ Fit:\ y = {fmt_term(m, 'x', first=True)}$"
+        lin_label = rf"$linear\ fit:\ y = {fmt_term(m, 'x', first=True)}$"
 
     else:
         lin_coeffs = np.polyfit(xdata, ydata, 1)
         lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
         lin_yfit = np.polyval(lin_coeffs, lin_xfit)
 
-        lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
+        lin_label = rf"$linear\ fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
 
     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
     ax.legend()
 elif fitline:
-    st.warning("Cannot fit line: data is empty or invalid")
+    st.warning("cannot fit line: data is empty or invalid")
 
 if fitquad and has_valid_xy(xdata, ydata):
     quad_coeffs = np.polyfit(xdata, ydata, 2)
@@ -310,11 +309,11 @@ if fitquad and has_valid_xy(xdata, ydata):
     quad_yfit = np.polyval(quad_coeffs, quad_xfit)
     # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt(quad_coeffs[0])}x^2\ +\ {fmt(quad_coeffs[1])}x\ +\ {fmt(quad_coeffs[2])}$"
     # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt_term(quad_coeffs[0], 'x^2', first=True)}{fmt_term(quad_coeffs[1], 'x')}{fmt_term(quad_coeffs[2])}$"
-    quad_label = rf"$Quadratic\ Fit:\ y = {fmt_poly(quad_coeffs, ['x^2','x',''])}$"
+    quad_label = rf"$quadratic\ fit:\ y = {fmt_poly(quad_coeffs, ['x^2','x',''])}$"
     ax.plot(quad_xfit, quad_yfit, color=c2, linestyle="dashed", label=quad_label, lw=3)
     ax.legend()
 elif fitquad:
-    st.warning("Cannot fit parabola: data is empty or invalid")
+    st.warning("cannot fit parabola: data is empty or invalid")
 
 
 st.pyplot(fig)
@@ -324,7 +323,7 @@ fig.savefig(buf, format="png")
 buf.seek(0)
 
 st.download_button(
-    label="Download Graph",
+    label="download graph",
     data=buf,
     file_name=f"{title.replace(' ', '_')}.png",
     mime="image/png",
