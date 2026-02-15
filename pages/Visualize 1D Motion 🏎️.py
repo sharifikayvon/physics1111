@@ -369,7 +369,8 @@ if makeani:
             markersize=30,
             color=color,
             zorder=100,
-            edgecolor=ecolor,
+            markeredgecolor=ecolor,
+            markeredgewidth=1.5,
         )
 
         ax.set_ylim(-1, 1)
