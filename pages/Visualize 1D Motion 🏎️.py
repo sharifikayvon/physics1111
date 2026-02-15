@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, FFMpegWriter
 import matplotlib as mpl
 import numpy as np
 import streamlit as st
@@ -8,7 +9,6 @@ import sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, convert_xor
 from scipy.integrate import cumulative_trapezoid
 from scipy.signal import find_peaks
-import time
 
 
 st.set_page_config(page_title="Visualize 1D Motion", page_icon="🏎️", layout="centered")
@@ -309,44 +309,7 @@ mpl.rcParams.update(
 
 fig = makeplot(x_arr, v_arr, a_arr, t, darkmode)
 
-col1, col2 = st.columns([3, 1])
-col1.pyplot(fig)
-
-st.title("1D Motion Animation")
-
-# Playback speed control
-speed = st.slider("Playback speed", 0.1, 3.0, 1.0)
-
-# Start button
-start = st.button("Start animation")
-
-# Placeholder for plot
-plot_placeholder = st.empty()
-
-if start:
-    fig, ax = plt.subplots()
-    ax.set_ylim(np.min(x_arr) - 0.5, np.max(x_arr) + 0.5)
-    ax.set_xlim(-1, 1)  # horizontal axis just for display
-    ax.set_xlabel("")
-    ax.set_ylabel("Position")
-
-    (ball,) = ax.plot(0, x_arr[0], "o", markersize=12)
-
-    prev_t = t[0]
-
-    for i in range(len(t)):
-        # Update ball position (vertical motion)
-        ball.set_data([0], [x_arr[i]])
-
-        plot_placeholder.pyplot(fig)
-
-        # real time delay based on time spacing
-        dt = (t[i] - prev_t) / speed
-        if dt > 0:
-            time.sleep(dt)
-
-        prev_t = t[i]
-
+st.pyplot(fig)
 
 buf = BytesIO()
 fig.savefig(buf, format="png")
@@ -355,3 +318,83 @@ buf.seek(0)
 st.download_button(
     label="Download Graph", data=buf, file_name="pva.png", mime="image/png"
 )
+
+makeani = st.checkbox(
+    "Make Animation", value=False, help="Visualize the motion in an animation."
+)
+
+if makeani:
+    orient = st.radio(
+        "Direction of Motion:", ("Vertical", "Horizontal"), horizontal=True
+    )
+
+    frames = 200
+    ani_t_arr = np.linspace(0, delta_t, frames)
+    ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
+
+    if orient == "Vertical":
+        fig_, ax = plt.subplots(figsize=(6, 8), constrained_layout=True)
+        color = "gold" if darkmode else "royalblue"
+        (ball,) = ax.plot(
+            [0], [ani_x_arr[0]], "o", markersize=12, color=color, zorder=100
+        )
+
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(np.min(ani_x_arr), np.max(ani_x_arr))
+
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["bottom"].set_visible(False)
+        ax.tick_params(axis="y", right=False, which="both")  # hide right y-axis ticks
+        ax.xaxis.set_visible(False)  # hide x-axis entirely
+        ax.set_ylabel("Position (m)", fontsize=10)
+        color = "gainsboro" if darkmode else "k"
+        ax.grid(
+            True,
+            which="both",
+            axis="y",
+            color=color,
+            alpha=0.5,
+            linestyle="--",
+            linewidth=0.5,
+        )
+    else:
+        fig_, ax = plt.subplots(figsize=(8, 4), constrained_layout=True)
+        color = "gold" if darkmode else "royalblue"
+        (ball,) = ax.plot(
+            ani_x_arr[0], [0], "o", markersize=12, color=color, zorder=100
+        )
+
+        ax.set_ylim(-1, 1)
+        ax.set_xlim(np.min(ani_x_arr), np.max(ani_x_arr))
+
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_visible(False)
+        ax.tick_params(axis="x", top=False, which="both")  # hide bottom x-axis ticks
+        ax.yaxis.set_visible(False)  # hide y-axis entirely
+        ax.set_xlabel("Position (m)", fontsize=10)
+        color = "gainsboro" if darkmode else "k"
+        ax.grid(
+            True,
+            which="both",
+            axis="x",
+            color=color,
+            alpha=0.5,
+            linestyle="--",
+            linewidth=0.5,
+        )
+
+    # --- animation update ---
+    def update(frame, orient=orient):
+        if orient == "Vertical":
+            ball.set_data([0], [ani_x_arr[frame]])
+        else:
+            ball.set_data([ani_x_arr[frame]], [0])
+        return (ball,)
+
+    ani = FuncAnimation(fig_, update, frames=frames, interval=0.0000001, blit=True)
+
+    # --- save and show in Streamlit ---
+    ani.save("anim.mp4", writer=FFMpegWriter(fps=frames / delta_t))
+    st.video("anim.mp4")
