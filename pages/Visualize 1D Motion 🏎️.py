@@ -32,7 +32,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         value=2.551,
         step=0.001,
         format="t = %.3f s",
-        help="Move the slider to explore x(t), v(t), and a(t) at different time values.",
+        help="move the slider to explore x(t), v(t), and a(t) at different times.",
     )
     idx = np.abs(t - tval).argmin()
     x = x_arr[idx]
@@ -164,7 +164,7 @@ t = np.linspace(0, delta_t, int(1e6))
 
 
 usr_func = st.radio(
-    "Specify function to define:", (r"$a(t)$", r"$v(t)$", r"$x(t)$"), horizontal=True
+    "specify function to define:", (r"$a(t)$", r"$v(t)$", r"$x(t)$"), horizontal=True
 )
 func_str = st.text_area(
     "",
@@ -238,7 +238,7 @@ v_arr = ensure_array(v_func(t), t)
 a_arr = ensure_array(a_func(t), t)
 
 
-darkmode = st.checkbox("Dark Mode", value=False)
+darkmode = st.checkbox("dark mode", value=False)
 
 font_path = "static/GoogleSans-Regular.ttf"
 mpl.font_manager.fontManager.addfont(font_path)
@@ -316,23 +316,23 @@ fig.savefig(buf, format="png")
 buf.seek(0)
 
 st.download_button(
-    label="Download Graph", data=buf, file_name="pva.png", mime="image/png"
+    label="download graph", data=buf, file_name="pva.png", mime="image/png"
 )
 
 makeani = st.checkbox(
-    "Make Animation", value=False, help="Visualize the motion in an animation."
+    "make animation", value=False, help="Visualize the motion in an animation."
 )
 
 if makeani:
     orient = st.radio(
-        "Direction of Motion:", ("Vertical", "Horizontal"), horizontal=True
+        "direction of motion:", ("vertical", "horizontal"), horizontal=True
     )
 
     frames = 100
     ani_t_arr = np.linspace(0, delta_t, frames)
     ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
 
-    if orient == "Vertical":
+    if orient == "vertical":
         fig_, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
         color = "gold" if darkmode else "royalblue"
         ecolor = "gainsboro" if darkmode else "k"
@@ -403,7 +403,7 @@ if makeani:
 
     # --- animation update ---
     def update(frame, orient=orient):
-        if orient == "Vertical":
+        if orient == "vertical":
             ball.set_data([0], [ani_x_arr[frame]])
         else:
             ball.set_data([ani_x_arr[frame]], [0])
