@@ -328,7 +328,7 @@ if makeani:
         "Direction of Motion:", ("Vertical", "Horizontal"), horizontal=True
     )
 
-    frames = 80
+    frames = 100
     ani_t_arr = np.linspace(0, delta_t, frames)
     ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
 
