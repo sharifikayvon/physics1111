@@ -109,7 +109,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
             label=label,
         )
         ax.legend(
-            loc="best", fontsize=10, frameon=False, handlelength=0, handletextpad=0
+            loc="best", fontsize=10, frameon=True, handlelength=0, handletextpad=0
         )
         ymin, ymax = ax.get_ylim()
         if ymin < 0 < ymax:
@@ -320,7 +320,9 @@ st.download_button(
 )
 
 makeani = st.checkbox(
-    "make animation", value=False, help="visualize the motion in an animation. will take a while to generate."
+    "make animation",
+    value=False,
+    help="visualize the motion in an animation. will take a while to generate.",
 )
 
 if makeani:
