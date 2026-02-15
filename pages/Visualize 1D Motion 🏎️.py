@@ -210,7 +210,7 @@ elif usr_func == "v(t)":
 
 elif usr_func == "a(t)":
 
-    x0 = st.number_input("x₀", value=100.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀ (m)", value=100.0, step=0.001, format="%0.3f")
     v0 = st.number_input("v₀ (m/s)", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
