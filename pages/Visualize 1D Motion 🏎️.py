@@ -157,7 +157,7 @@ st.markdown(
 )
 
 
-delta_t = st.number_input("tₘₐₓ", value=7.80, format="%0.3f", step=0.001)
+delta_t = st.number_input("final time [s]", value=7.80, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
