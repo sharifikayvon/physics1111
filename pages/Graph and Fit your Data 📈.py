@@ -146,6 +146,9 @@ col1, col2, col3 = st.columns(3)
 fitline = col1.checkbox("Linear Fit", value=False)
 fitquad = col2.checkbox("Quadratic Fit", value=False)
 darkmode = col3.checkbox("Dark Mode", value=False)
+col1, col2 = st.columns(2)
+flipx = col1.checkbox("Flip x axis", value=False)
+flipy = col2.checkbox("Flip y axis", value=False)
 force_origin = False
 if fitline:
     force_origin = st.checkbox("Set Linear Fit y-intercept to 0", value=False)
@@ -263,6 +266,10 @@ ax.set_xlabel(xlabel)
 ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
+if flipx:
+    ax.invert_xaxis()
+if flipy:
+    ax.invert_yaxis()
 
 # if fitline and has_valid_xy(xdata, ydata):
 #     lin_coeffs = np.polyfit(xdata, ydata, 1)
