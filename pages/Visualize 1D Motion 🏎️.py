@@ -29,7 +29,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         "",
         min_value=0.0,
         max_value=float(max(t)),
-        value=0.4 * float(max(t)),
+        value=2.551,
         step=0.001,
         format="t = %.3f s",
         help="Move the slider to explore x(t), v(t), and a(t) at different time values.",
