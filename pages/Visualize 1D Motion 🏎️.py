@@ -157,7 +157,7 @@ st.markdown(
 )
 
 
-delta_t = st.number_input(r"$t_{max}$:", value=7.80, format="%0.3f", step=0.001)
+delta_t = st.number_input("tₘₐₓ", value=7.80, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
@@ -210,8 +210,8 @@ elif usr_func == "v(t)":
 
 elif usr_func == "a(t)":
 
-    x0 = st.number_input("x₀:", value=100.0, step=0.001, format="%0.3f")
-    v0 = st.number_input("v₀:", value=25.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀", value=100.0, step=0.001, format="%0.3f")
+    v0 = st.number_input("v₀", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
     v_expr = sp.integrate(expr, t_sym) + v0
