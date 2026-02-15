@@ -116,8 +116,8 @@ if mode == "Upload data file":
 elif mode == "Manually enter data":
     st.markdown("Enter values separated by spaces or commas.")
 
-    x_str = st.text_area("X values", "0 1 2 3 4 5")
-    y_str = st.text_area("Y values", "0 1 4 9 16 25")
+    x_str = st.text_area("x values", "0 1 2 3 4 5")
+    y_str = st.text_area("y values", "0 1 4 9 16 25")
 
     def parse_array(s):
         return np.array([float(v) for v in s.replace(",", " ").split()])
@@ -127,7 +127,7 @@ elif mode == "Manually enter data":
         ydata = parse_array(y_str)
 
         if len(xdata) != len(ydata):
-            st.error("X and Y must have the same length.")
+            st.error("x and y must have the same length.")
             st.stop()
 
     except ValueError:
@@ -135,22 +135,22 @@ elif mode == "Manually enter data":
         st.stop()
 
 
-title = st.text_input("Plot Title:", "Title")
+title = st.text_input("plot title:", "title")
 
 col1, col2 = st.columns(2)
-xlabel = col1.text_input("X Label:", "x axis")
-ylabel = col2.text_input("Y Label:", "y axis")
+xlabel = col1.text_input("x label:", "x axis")
+ylabel = col2.text_input("y label:", "y axis")
 
 
 col1, col2, col3, col4, col5 = st.columns(5)
-fitline = col3.checkbox("Linear Fit", value=False)
-fitquad = col4.checkbox("Quadratic Fit", value=False)
-darkmode = col5.checkbox("Dark Mode", value=False)
-flipx = col2.checkbox("Flip x axis", value=False)
-flipy = col1.checkbox("Flip y axis", value=False)
+fitline = col3.checkbox("linear fit", value=False)
+fitquad = col4.checkbox("quadratic fit", value=False)
+darkmode = col5.checkbox("dark mode", value=False)
+flipx = col2.checkbox("flip x axis", value=False)
+flipy = col1.checkbox("flip y axis", value=False)
 force_origin = False
 if fitline:
-    force_origin = st.checkbox("Set Linear Fit y-intercept to 0", value=False)
+    force_origin = st.checkbox("set linear fit y-intercept to 0", value=False)
 
 font_path = "static/GoogleSans-Regular.ttf"
 mpl.font_manager.fontManager.addfont(font_path)
