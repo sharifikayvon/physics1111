@@ -37,11 +37,106 @@ def hue_to_wavelength(hue):
     return wavelength
 
 
+# def image_to_spectrum(
+#     image_path,
+#     wavelengths=np.linspace(390, 710, 200),
+#     max_side=1500,
+#     resolving_power=None,
+#     fwhm_nm=5.0,
+# ):
+#     """
+#     Convert an image to a wavelength spectrum.
+
+#     Parameters
+#     ----------
+#     image_path : str
+#         Path to image (.jpg, .png, .heic, etc.)
+#     wavelengths : np.ndarray
+#         1D array of wavelength bins (nm)
+#     max_side : int
+#         Maximum length of the largest image dimension to downscale for speed
+#     resolving_power : float or None
+#         R = lambda / delta_lambda. If given, overrides fwhm_nm and computes
+#         a wavelength-dependent blur (roughly, using the central wavelength).
+#     fwhm_nm : float
+#         Full-width-half-max of the instrumental blur, in nm, if resolving_power
+#         is not given. Larger = blurrier/lower resolution.
+#     """
+
+#     # Open image (HEIC support must be registered outside)
+#     # im = Image.open(image_path).convert("HSV")
+#     im = Image.open(image_path).convert("RGB").convert("HSV")
+
+#     # Downscale large images while preserving aspect ratio
+#     if max(im.size) > max_side:
+#         im.thumbnail((max_side, max_side))
+
+#     arr = np.array(im, dtype=np.float32)
+#     H, S, V = arr[..., 0], arr[..., 1], arr[..., 2]
+
+#     # Convert to conventional HSV units
+#     hue = 360.0 * H / 255.0
+#     saturation = 100.0 * S / 255.0
+#     value = 100.0 * V / 255.0
+
+#     # Flatten pixels
+#     hue_flat = hue.ravel()
+#     sat_flat = saturation.ravel()
+#     val_flat = value.ravel()
+
+#     # Hue → wavelength
+#     wavelengths_tmp = hue_to_wavelength(hue_flat)
+
+#     # Keep only valid pixels
+#     mask = ~np.isnan(wavelengths_tmp)
+#     wavelengths_tmp = wavelengths_tmp[mask]
+#     sat_flat = sat_flat[mask]
+#     val_flat = val_flat[mask]
+
+#     # Map each pixel wavelength to nearest wavelength bin
+#     indices = np.abs(wavelengths_tmp[:, None] - wavelengths[None, :]).argmin(axis=1)
+
+#     # One-hot encode colors
+#     colour_arrays = np.zeros((len(indices), len(wavelengths)), dtype=float)
+#     colour_arrays[np.arange(len(indices)), indices] = 1.0
+
+#     # Flat white spectrum
+#     white_array = np.ones_like(wavelengths, dtype=float) * (3.0 / len(wavelengths))
+
+#     # Mix color + white by saturation
+#     intensities_tmp = (
+#         sat_flat[:, None] * colour_arrays
+#         + (100.0 - sat_flat)[:, None] * white_array[None, :]
+#     ) / 100.0
+
+#     # Normalize and scale by value
+#     norms = intensities_tmp.sum(axis=1, keepdims=True)
+#     norms[norms == 0] = 1
+#     intensities_tmp = val_flat[:, None] * intensities_tmp / (100.0 * norms)
+
+#     # Sum over all pixels to get final spectrum
+#     intensities = intensities_tmp.sum(axis=0)
+
+#     dλ = wavelengths[1] - wavelengths[0]  # bin spacing in nm
+
+#     if resolving_power is not None:
+#         lambda_center = np.median(wavelengths)
+#         fwhm_nm = lambda_center / resolving_power
+
+#     sigma_nm = fwhm_nm / 2.3548  # FWHM -> Gaussian sigma
+#     sigma_bins = sigma_nm / dλ
+
+#     intensities = gaussian_filter1d(intensities, sigma=sigma_bins, mode="nearest")
+
+#     intensities = intensities / np.max(intensities)
+#     wavelengths = 10 * wavelengths
+
+#     return intensities
+
 def image_to_spectrum(
     image_path,
     wavelengths=np.linspace(390, 710, 200),
     max_side=1500,
-    resolving_power=None,
     fwhm_nm=5.0,
 ):
     """
@@ -52,19 +147,16 @@ def image_to_spectrum(
     image_path : str
         Path to image (.jpg, .png, .heic, etc.)
     wavelengths : np.ndarray
-        1D array of wavelength bins (nm)
+        1D array of wavelength bins (nm), assumed sorted/evenly spaced.
     max_side : int
-        Maximum length of the largest image dimension to downscale for speed
-    resolving_power : float or None
-        R = lambda / delta_lambda. If given, overrides fwhm_nm and computes
-        a wavelength-dependent blur (roughly, using the central wavelength).
+        Maximum length of the largest image dimension to downscale for speed.
     fwhm_nm : float
-        Full-width-half-max of the instrumental blur, in nm, if resolving_power
-        is not given. Larger = blurrier/lower resolution.
+        Full-width-half-max of the instrumental blur, in nm.
+        Larger = blurrier/lower resolution.
     """
 
-    # Open image (HEIC support must be registered outside)
-    # im = Image.open(image_path).convert("HSV")
+    # Open image (HEIC support must be registered outside); force RGB first
+    # so RGBA/palette/etc. images convert to HSV cleanly.
     im = Image.open(image_path).convert("RGB").convert("HSV")
 
     # Downscale large images while preserving aspect ratio
@@ -93,45 +185,37 @@ def image_to_spectrum(
     sat_flat = sat_flat[mask]
     val_flat = val_flat[mask]
 
-    # Map each pixel wavelength to nearest wavelength bin
-    indices = np.abs(wavelengths_tmp[:, None] - wavelengths[None, :]).argmin(axis=1)
+    nbins = len(wavelengths)
 
-    # One-hot encode colors
-    colour_arrays = np.zeros((len(indices), len(wavelengths)), dtype=float)
-    colour_arrays[np.arange(len(indices)), indices] = 1.0
+    # Map each pixel wavelength to nearest wavelength bin.
+    # wavelengths is sorted/evenly spaced, so use searchsorted on the
+    # midpoints between bins -- O(pixels) instead of the old O(pixels x bins)
+    # argmin over a full pairwise-distance matrix.
+    bin_edges = (wavelengths[:-1] + wavelengths[1:]) / 2.0
+    indices = np.searchsorted(bin_edges, wavelengths_tmp)
 
-    # Flat white spectrum
-    white_array = np.ones_like(wavelengths, dtype=float) * (3.0 / len(wavelengths))
+    # --- Equivalent math to the original one-hot + broadcast version ---
+    # Original: intensities_tmp[i,j] = (sat[i]*onehot[i,j] + (100-sat[i])*white[j]) / 100
+    #           norms[i] = sat[i]/100 + (100-sat[i])*3/100   (onehot row sums to 1, white row sums to 3)
+    #           intensities[j] = sum_i val[i]*intensities_tmp[i,j] / (100*norms[i])
+    # This reduces to a per-pixel "color" weight that lands in exactly one bin,
+    # plus a per-pixel "white" weight that is identical across every bin.
+    denom = 300.0 - 2.0 * sat_flat  # always in [100, 300], sat in [0,100] -> no div-by-zero
+    weight_color = val_flat * sat_flat / (100.0 * denom)
+    weight_white = val_flat * (100.0 - sat_flat) * 3.0 / (nbins * 100.0 * denom)
 
-    # Mix color + white by saturation
-    intensities_tmp = (
-        sat_flat[:, None] * colour_arrays
-        + (100.0 - sat_flat)[:, None] * white_array[None, :]
-    ) / 100.0
+    intensities = np.bincount(indices, weights=weight_color, minlength=nbins).astype(float)
+    intensities += weight_white.sum()  # uniform white contribution, same value added to every bin
 
-    # Normalize and scale by value
-    norms = intensities_tmp.sum(axis=1, keepdims=True)
-    norms[norms == 0] = 1
-    intensities_tmp = val_flat[:, None] * intensities_tmp / (100.0 * norms)
-
-    # Sum over all pixels to get final spectrum
-    intensities = intensities_tmp.sum(axis=0)
-
+    # --- Instrumental broadening (lower resolving power) ---
     dλ = wavelengths[1] - wavelengths[0]  # bin spacing in nm
-
-    if resolving_power is not None:
-        lambda_center = np.median(wavelengths)
-        fwhm_nm = lambda_center / resolving_power
-
     sigma_nm = fwhm_nm / 2.3548  # FWHM -> Gaussian sigma
     sigma_bins = sigma_nm / dλ
-
     intensities = gaussian_filter1d(intensities, sigma=sigma_bins, mode="nearest")
 
     intensities = intensities / np.max(intensities)
-    wavelengths = 10 * wavelengths
 
-    return intensities
+    return wavelengths, intensities
 
 uploaded_file = st.file_uploader(
         "upload a photo (.jpg, .png, .heic)", type=["jpg", "png", "heic"]
@@ -233,8 +317,7 @@ if darkmode:
     )
 
 
-wavelengths=10*np.linspace(390, 710, 200)
-intensities = image_to_spectrum(uploaded_file)
+wavelengths, intensities = image_to_spectrum(uploaded_file)
 
 fig, ax = plt.subplots(figsize=(20, 8))
 ax.plot(wavelengths, intensities, lw=2, c="k")
