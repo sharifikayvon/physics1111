@@ -29,7 +29,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         "",
         min_value=0.0,
         max_value=float(max(t)),
-        value=1.571,
+        value=3.142,
         step=0.001,
         format="t = %.3f s",
         help="move the slider to explore x(t), v(t), and a(t) at different times.",
@@ -168,8 +168,8 @@ usr_func = st.radio(
 )
 func_str = st.text_area(
     "",
-    "cos(t)",
-    help="use t as the variable, e.g. 2\*t+4, 5\*t^2, sin(t)",
+    "sin(t)",
+    help="use t as the variable, e.g. 2\*t+4, 5\*t^2, cos(t)",
     height=50,
 )
 
