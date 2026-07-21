@@ -197,16 +197,14 @@ elif usr_func == "v(t)":
 
     ufunc, expr, err = parse_function(func_str)
 
-    x_expr = sp.integrate(expr, t_sym) + x0
+    tau = sp.symbols("tau")  # dummy integration variable to avoid clashing with t
+    x_expr = sp.integrate(expr.subs(t_sym, tau), (tau, 0, t_sym)) + x0
     a_expr = sp.diff(expr, t_sym)
 
     x_func = sp.lambdify(t_sym, x_expr, modules="numpy")
     v_func = sp.lambdify(t_sym, expr, modules="numpy")
     a_func = sp.lambdify(t_sym, a_expr, modules="numpy")
-    # v_arr = ufunc(t)
-    # a_arr = np.gradient(v_arr, t)
-    # x_arr = cumulative_trapezoid(v_arr, t, initial=0.0)
-    # x_arr += x0
+
 
 elif usr_func == "a(t)":
 
@@ -214,24 +212,14 @@ elif usr_func == "a(t)":
     v0 = st.number_input("v₀ (m/s)", value=25.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
-    v_expr = sp.integrate(expr, t_sym) + v0
-    x_expr = sp.integrate(v_expr, t_sym) + x0
+    tau = sp.symbols("tau")  # dummy integration variable to avoid clashing with t
+    v_expr = sp.integrate(expr.subs(t_sym, tau), (tau, 0, t_sym)) + v0
+    x_expr = sp.integrate(v_expr.subs(t_sym, tau), (tau, 0, t_sym)) + x0
 
     x_func = sp.lambdify(t_sym, x_expr, modules="numpy")
     v_func = sp.lambdify(t_sym, v_expr, modules="numpy")
     a_func = sp.lambdify(t_sym, expr, modules="numpy")
 
-    # a_arr = ufunc(t)
-    # # st.write(a_arr.shape)
-    # v_arr = cumulative_trapezoid(a_arr, t, initial=0.0)
-    # v_arr += v0
-    # x_arr = cumulative_trapezoid(v_arr, t, initial=0.0)
-    # x_arr += x0
-
-
-# x_arr = np.array(x_func(t), dtype=float)
-# v_arr = np.array(v_func(t), dtype=float)
-# a_arr = np.array(a_func(t), dtype=float)
 
 x_arr = ensure_array(x_func(t), t)
 v_arr = ensure_array(v_func(t), t)
