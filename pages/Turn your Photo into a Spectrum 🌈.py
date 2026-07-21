@@ -328,12 +328,16 @@ if darkmode:
 wavelengths, intensities = image_to_spectrum(uploaded_file)
 
 fig, ax = plt.subplots(figsize=(20, 8))
-ax.plot(10*wavelengths, intensities, lw=2, c="k")
+c='k'
+if darkmode:
+    c='w'
+ax.plot(10*wavelengths, intensities, lw=5, c=c)
 
 ax.set_xlabel(r"Wavelength ($\AA$)", fontsize=20)
 ax.set_ylabel(r"Relative Intensity", fontsize=20)
 ax.set_xlim(3900, 7100)
 ax.set_ylim(-0.04, 1.04)
+ax.grid(True, which='both')
 
 # Leave headroom at the top of the figure for the colorbar band
 fig.subplots_adjust(top=0.88)
