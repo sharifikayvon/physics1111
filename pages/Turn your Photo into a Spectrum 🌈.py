@@ -233,7 +233,7 @@ if darkmode:
     )
 
 
-wavelengths=np.linspace(390, 710, 200)
+wavelengths=10*np.linspace(390, 710, 200)
 intensities = image_to_spectrum(uploaded_file)
 
 fig, ax = plt.subplots(figsize=(20, 8))
