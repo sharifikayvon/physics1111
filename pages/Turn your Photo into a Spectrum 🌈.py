@@ -64,7 +64,8 @@ def image_to_spectrum(
     """
 
     # Open image (HEIC support must be registered outside)
-    im = Image.open(image_path).convert("HSV")
+    # im = Image.open(image_path).convert("HSV")
+    im = Image.open(image_path).convert("RGB").convert("HSV")
 
     # Downscale large images while preserving aspect ratio
     if max(im.size) > max_side:
