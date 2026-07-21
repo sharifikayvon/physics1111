@@ -11,6 +11,7 @@ Dr. Barooni's Physics 1111 course and to provide interactive demos of course con
 
 Features include:
 - **Graph and Fit your Data**: Make a scatter plot of your data and fit a linear or quadratic function.
+- **Turn your Photo into a Spectrum**: Upload a photo and see it reimagined as a spectrum of light.
 - **Visualize 1D Motion**: Define **x(t)**, **v(t)**, or **a(t)** and visualize all three simultaneously.
 
 Explore the tools using the sidebar on the left. If you have any questions or feedback, please email me at ksharifi1@gsu.edu.
