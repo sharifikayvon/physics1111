@@ -319,6 +319,12 @@ ax.set_ylabel(r"Relative Intensity", fontsize=20)
 ax.set_xlim(3900, 7100)
 ax.set_ylim(-0.04, 1.04)
 
+# Leave headroom at the top of the figure for the colorbar band
+fig.subplots_adjust(top=0.88)
+
+# Force a draw so get_position() reflects the actual final layout
+fig.canvas.draw()
+
 pos = ax.get_position()
 cax = fig.add_axes([pos.x0, pos.y1 + 0.02, pos.width, pos.height * 0.05])
 
