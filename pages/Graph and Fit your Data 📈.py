@@ -255,8 +255,7 @@ if darkmode:
 if "xdata" not in locals() and "ydata" not in locals():
     xdata = np.arange(-3 * np.pi, 3 * np.pi, 0.05)
     ydata = np.sin(-0.5 * xdata) + np.random.normal(0, 0.15, len(xdata))
-    # xdata = np.arange(0,10, 1)
-    # ydata = 2 * xdata**2 + 5*xdata + np.random.normal(0, 3, len(xdata))
+
 
 fig, ax = plt.subplots(figsize=(8, 6))
 ax.scatter(xdata, ydata, s=100, c=c, edgecolors=edgecolors, lw=3)
