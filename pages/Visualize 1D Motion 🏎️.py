@@ -29,7 +29,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         "",
         min_value=0.0,
         max_value=float(max(t)),
-        value=2.551,
+        value=3.142,
         step=0.001,
         format="t = %.3f s",
         help="move the slider to explore x(t), v(t), and a(t) at different times.",
@@ -157,7 +157,7 @@ st.markdown(
 )
 
 
-delta_t = st.number_input("Δt (s)", value=7.80, format="%0.3f", step=0.001)
+delta_t = st.number_input("Δt (s)", value=10.0, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
@@ -168,8 +168,8 @@ usr_func = st.radio(
 )
 func_str = st.text_area(
     "",
-    "-9.8",
-    help="use t as the variable, e.g. 2\*t+4, 5\*t^2, sin(t)",
+    "sin(t)",
+    help="use t as the variable, e.g. 2\*t+4, 5\*t^2, cos(t)",
     height=50,
 )
 
@@ -197,41 +197,29 @@ elif usr_func == "v(t)":
 
     ufunc, expr, err = parse_function(func_str)
 
-    x_expr = sp.integrate(expr, t_sym) + x0
+    tau = sp.symbols("tau")  # dummy integration variable to avoid clashing with t
+    x_expr = sp.integrate(expr.subs(t_sym, tau), (tau, 0, t_sym)) + x0
     a_expr = sp.diff(expr, t_sym)
 
     x_func = sp.lambdify(t_sym, x_expr, modules="numpy")
     v_func = sp.lambdify(t_sym, expr, modules="numpy")
     a_func = sp.lambdify(t_sym, a_expr, modules="numpy")
-    # v_arr = ufunc(t)
-    # a_arr = np.gradient(v_arr, t)
-    # x_arr = cumulative_trapezoid(v_arr, t, initial=0.0)
-    # x_arr += x0
+
 
 elif usr_func == "a(t)":
 
-    x0 = st.number_input("x₀ (m)", value=100.0, step=0.001, format="%0.3f")
-    v0 = st.number_input("v₀ (m/s)", value=25.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀ (m)", value=0.0, step=0.001, format="%0.3f")
+    v0 = st.number_input("v₀ (m/s)", value=-1.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
-    v_expr = sp.integrate(expr, t_sym) + v0
-    x_expr = sp.integrate(v_expr, t_sym) + x0
+    tau = sp.symbols("tau")  # dummy integration variable to avoid clashing with t
+    v_expr = sp.integrate(expr.subs(t_sym, tau), (tau, 0, t_sym)) + v0
+    x_expr = sp.integrate(v_expr.subs(t_sym, tau), (tau, 0, t_sym)) + x0
 
     x_func = sp.lambdify(t_sym, x_expr, modules="numpy")
     v_func = sp.lambdify(t_sym, v_expr, modules="numpy")
     a_func = sp.lambdify(t_sym, expr, modules="numpy")
 
-    # a_arr = ufunc(t)
-    # # st.write(a_arr.shape)
-    # v_arr = cumulative_trapezoid(a_arr, t, initial=0.0)
-    # v_arr += v0
-    # x_arr = cumulative_trapezoid(v_arr, t, initial=0.0)
-    # x_arr += x0
-
-
-# x_arr = np.array(x_func(t), dtype=float)
-# v_arr = np.array(v_func(t), dtype=float)
-# a_arr = np.array(a_func(t), dtype=float)
 
 x_arr = ensure_array(x_func(t), t)
 v_arr = ensure_array(v_func(t), t)
@@ -319,100 +307,100 @@ st.download_button(
     label="download graph", data=buf, file_name="pva.png", mime="image/png"
 )
 
-makeani = st.checkbox(
-    "make animation",
-    value=False,
-    help="visualize the motion in an animation. will take a while to generate.",
-)
+# makeani = st.checkbox(
+#     "make animation",
+#     value=False,
+#     help="visualize the motion in an animation. will take a while to generate.",
+# )
 
-if makeani:
-    orient = st.radio(
-        "direction of motion:", ("vertical", "horizontal"), horizontal=True
-    )
+# if makeani:
+#     orient = st.radio(
+#         "direction of motion:", ("vertical", "horizontal"), horizontal=True
+#     )
 
-    frames = 100
-    ani_t_arr = np.linspace(0, delta_t, frames)
-    ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
+#     frames = 100
+#     ani_t_arr = np.linspace(0, delta_t, frames)
+#     ani_x_arr = ensure_array(x_func(ani_t_arr), ani_t_arr)  # vertical position
 
-    if orient == "vertical":
-        fig_, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
-        color = "gold" if darkmode else "royalblue"
-        ecolor = "gainsboro" if darkmode else "k"
-        (ball,) = ax.plot(
-            [0],
-            [ani_x_arr[0]],
-            "o",
-            markersize=30,
-            color=color,
-            zorder=100,
-            markeredgecolor=ecolor,
-            markeredgewidth=3,
-        )
+#     if orient == "vertical":
+#         fig_, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
+#         color = "gold" if darkmode else "royalblue"
+#         ecolor = "gainsboro" if darkmode else "k"
+#         (ball,) = ax.plot(
+#             [0],
+#             [ani_x_arr[0]],
+#             "o",
+#             markersize=30,
+#             color=color,
+#             zorder=100,
+#             markeredgecolor=ecolor,
+#             markeredgewidth=3,
+#         )
 
-        ax.set_xlim(-1, 1)
-        ax.set_ylim(np.min(ani_x_arr), np.max(ani_x_arr))
+#         ax.set_xlim(-1, 1)
+#         ax.set_ylim(np.min(ani_x_arr), np.max(ani_x_arr))
 
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.spines["bottom"].set_visible(False)
-        ax.tick_params(axis="y", right=False, which="both")  # hide right y-axis ticks
-        ax.xaxis.set_visible(False)  # hide x-axis entirely
-        ax.set_ylabel("Position (m)", fontsize=10)
-        color = "gainsboro" if darkmode else "k"
-        ax.grid(
-            True,
-            which="both",
-            axis="y",
-            color=color,
-            alpha=0.5,
-            linestyle="--",
-            linewidth=0.5,
-        )
-    else:
-        fig_, ax = plt.subplots(figsize=(8, 4), constrained_layout=True)
-        color = "gold" if darkmode else "royalblue"
-        ecolor = "gainsboro" if darkmode else "k"
-        (ball,) = ax.plot(
-            ani_x_arr[0],
-            [0],
-            "o",
-            markersize=30,
-            color=color,
-            zorder=100,
-            markeredgecolor=ecolor,
-            markeredgewidth=3,
-        )
+#         ax.spines["top"].set_visible(False)
+#         ax.spines["right"].set_visible(False)
+#         ax.spines["bottom"].set_visible(False)
+#         ax.tick_params(axis="y", right=False, which="both")  # hide right y-axis ticks
+#         ax.xaxis.set_visible(False)  # hide x-axis entirely
+#         ax.set_ylabel("Position (m)", fontsize=10)
+#         color = "gainsboro" if darkmode else "k"
+#         ax.grid(
+#             True,
+#             which="both",
+#             axis="y",
+#             color=color,
+#             alpha=0.5,
+#             linestyle="--",
+#             linewidth=0.5,
+#         )
+#     else:
+#         fig_, ax = plt.subplots(figsize=(8, 4), constrained_layout=True)
+#         color = "gold" if darkmode else "royalblue"
+#         ecolor = "gainsboro" if darkmode else "k"
+#         (ball,) = ax.plot(
+#             ani_x_arr[0],
+#             [0],
+#             "o",
+#             markersize=30,
+#             color=color,
+#             zorder=100,
+#             markeredgecolor=ecolor,
+#             markeredgewidth=3,
+#         )
 
-        ax.set_ylim(-1, 1)
-        ax.set_xlim(np.min(ani_x_arr), np.max(ani_x_arr))
+#         ax.set_ylim(-1, 1)
+#         ax.set_xlim(np.min(ani_x_arr), np.max(ani_x_arr))
 
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.spines["left"].set_visible(False)
-        ax.tick_params(axis="x", top=False, which="both")  # hide bottom x-axis ticks
-        ax.yaxis.set_visible(False)  # hide y-axis entirely
-        ax.set_xlabel("Position (m)", fontsize=10)
-        color = "gainsboro" if darkmode else "k"
-        ax.grid(
-            True,
-            which="both",
-            axis="x",
-            color=color,
-            alpha=0.5,
-            linestyle="--",
-            linewidth=0.5,
-        )
+#         ax.spines["top"].set_visible(False)
+#         ax.spines["right"].set_visible(False)
+#         ax.spines["left"].set_visible(False)
+#         ax.tick_params(axis="x", top=False, which="both")  # hide bottom x-axis ticks
+#         ax.yaxis.set_visible(False)  # hide y-axis entirely
+#         ax.set_xlabel("Position (m)", fontsize=10)
+#         color = "gainsboro" if darkmode else "k"
+#         ax.grid(
+#             True,
+#             which="both",
+#             axis="x",
+#             color=color,
+#             alpha=0.5,
+#             linestyle="--",
+#             linewidth=0.5,
+#         )
 
-    # --- animation update ---
-    def update(frame, orient=orient):
-        if orient == "vertical":
-            ball.set_data([0], [ani_x_arr[frame]])
-        else:
-            ball.set_data([ani_x_arr[frame]], [0])
-        return (ball,)
+#     # --- animation update ---
+#     def update(frame, orient=orient):
+#         if orient == "vertical":
+#             ball.set_data([0], [ani_x_arr[frame]])
+#         else:
+#             ball.set_data([ani_x_arr[frame]], [0])
+#         return (ball,)
 
-    ani = FuncAnimation(fig_, update, frames=frames, interval=0.0000001, blit=True)
+#     ani = FuncAnimation(fig_, update, frames=frames, interval=0.0000001, blit=True)
 
-    # --- save and show in Streamlit ---
-    ani.save("anim.mp4", writer=FFMpegWriter(fps=frames / delta_t))
-    st.video("anim.mp4")
+#     # --- save and show in Streamlit ---
+#     ani.save("anim.mp4", writer=FFMpegWriter(fps=frames / delta_t))
+#     st.video("anim.mp4")
