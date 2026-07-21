@@ -258,26 +258,18 @@ if "xdata" not in locals() and "ydata" not in locals():
     # xdata = np.arange(0,10, 1)
     # ydata = 2 * xdata**2 + 5*xdata + np.random.normal(0, 3, len(xdata))
 
-fig, ax = plt.subplots(figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(6, 6))
 ax.scatter(xdata, ydata, s=100, c=c, edgecolors=edgecolors, lw=3)
 ax.set_xlabel(xlabel)
 ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
+ax.set_aspect("equal", adjustable='datalim')
 if flipx:
     ax.invert_xaxis()
 if flipy:
     ax.invert_yaxis()
 
-# if fitline and has_valid_xy(xdata, ydata):
-#     lin_coeffs = np.polyfit(xdata, ydata, 1)
-#     lin_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
-#     lin_yfit = np.polyval(lin_coeffs, lin_xfit)
-#     # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt(lin_coeffs[0])}x\ +\ {fmt(lin_coeffs[1])}$"
-#     # lin_label = rf"$Linear\ Fit:\ y\ =\ {fmt_term(lin_coeffs[0], 'x', first=True)}{fmt_term(lin_coeffs[1])}$"
-#     lin_label = rf"$Linear\ Fit:\ y = {fmt_poly(lin_coeffs, ['x',''])}$"
-#     ax.plot(lin_xfit, lin_yfit, color=c1, linestyle="solid", label=lin_label, lw=3)
-#     ax.legend()
 if fitline and has_valid_xy(xdata, ydata):
 
     if force_origin:
@@ -307,8 +299,6 @@ if fitquad and has_valid_xy(xdata, ydata):
     quad_coeffs = np.polyfit(xdata, ydata, 2)
     quad_xfit = np.linspace(np.min(xdata), np.max(xdata), 500)
     quad_yfit = np.polyval(quad_coeffs, quad_xfit)
-    # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt(quad_coeffs[0])}x^2\ +\ {fmt(quad_coeffs[1])}x\ +\ {fmt(quad_coeffs[2])}$"
-    # quad_label = rf"$Quadratic\ Fit:\ y\ =\ {fmt_term(quad_coeffs[0], 'x^2', first=True)}{fmt_term(quad_coeffs[1], 'x')}{fmt_term(quad_coeffs[2])}$"
     quad_label = rf"$quadratic\ fit:\ y = {fmt_poly(quad_coeffs, ['x^2','x',''])}$"
     ax.plot(quad_xfit, quad_yfit, color=c2, linestyle="dashed", label=quad_label, lw=3)
     ax.legend()
