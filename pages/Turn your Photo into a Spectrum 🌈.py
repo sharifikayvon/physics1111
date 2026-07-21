@@ -320,7 +320,7 @@ if darkmode:
 wavelengths, intensities = image_to_spectrum(uploaded_file)
 
 fig, ax = plt.subplots(figsize=(20, 8))
-ax.plot(wavelengths, intensities, lw=2, c="k")
+ax.plot(10*wavelengths, intensities, lw=2, c="k")
 
 ax.set_xlabel(r"Wavelength ($\AA$)", fontsize=20)
 ax.set_ylabel(r"Relative Intensity", fontsize=20)
