@@ -13,6 +13,10 @@ st.set_page_config(
     page_title="Turn your Photo into a Spectrum", page_icon="🌈", layout="centered"
 )
 
+st.markdown(
+    "<h1 style='text-align: center'>Turn your Photo into a Spectrum 🌈</h1>",
+    unsafe_allow_html=True,
+)
 register_heif_opener()
 
 
