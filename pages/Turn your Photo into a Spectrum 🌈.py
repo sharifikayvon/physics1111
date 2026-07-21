@@ -9,6 +9,10 @@ import streamlit as st
 from io import BytesIO
 from scipy.ndimage import gaussian_filter1d
 
+st.set_page_config(
+    page_title="Turn your Photo into a Spectrum", page_icon="🌈", layout="centered"
+)
+
 register_heif_opener()
 
 
