@@ -7,6 +7,7 @@ from matplotlib.colors import hsv_to_rgb
 from pillow_heif import register_heif_opener
 import streamlit as st
 from io import BytesIO
+from scipy.ndimage import gaussian_filter1d
 
 register_heif_opener()
 
@@ -135,9 +136,13 @@ uploaded_file = st.file_uploader(
         "upload a photo (.jpg, .png, .heic)", type=["jpg", "png", "heic"]
     )
 
-if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(image, caption=uploaded_file.name, use_container_width=True)
+if uploaded_file is None:
+    st.stop()   # halts script execution here until a file is uploaded
+
+image = Image.open(uploaded_file)
+st.image(image, caption=uploaded_file.name, width='stretch')
+
+uploaded_file.seek(0)   # reset before image_to_spectrum reads it again
 
 darkmode = st.checkbox("Plot the spectrum in dark mode", value=False)
 
