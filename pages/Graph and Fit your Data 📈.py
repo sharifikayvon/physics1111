@@ -258,13 +258,13 @@ if "xdata" not in locals() and "ydata" not in locals():
     # xdata = np.arange(0,10, 1)
     # ydata = 2 * xdata**2 + 5*xdata + np.random.normal(0, 3, len(xdata))
 
-fig, ax = plt.subplots(figsize=(6, 6))
+fig, ax = plt.subplots(figsize=(8, 6))
 ax.scatter(xdata, ydata, s=100, c=c, edgecolors=edgecolors, lw=3)
 ax.set_xlabel(xlabel)
 ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
-ax.set_aspect("equal", adjustable='datalim')
+# ax.set_aspect("equal", adjustable='datalim')
 if flipx:
     ax.invert_xaxis()
 if flipy:
