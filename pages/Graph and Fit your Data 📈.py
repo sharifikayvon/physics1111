@@ -87,7 +87,7 @@ mode = st.radio(
 
 if mode == "upload data file":
     uploaded_file = st.file_uploader(
-        "upload a data file (.csv, .txt, .xlsx)", type=["csv", "txt", "xlsx"]
+        "upload a data file", type=["csv", "txt", "xlsx"]
     )
 
     if uploaded_file is not None:
