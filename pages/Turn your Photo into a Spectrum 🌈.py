@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 st.markdown(
-    "<h1 style='text-align: center'>Turn your Photo into a Spectrum 🌈</h1>",
+    "<h2 style='text-align: center'>Turn your Photo into a Spectrum 🌈</h2>",
     unsafe_allow_html=True,
 )
 register_heif_opener()
