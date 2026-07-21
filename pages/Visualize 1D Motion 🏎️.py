@@ -29,7 +29,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         "",
         min_value=0.0,
         max_value=float(max(t)),
-        value=2.551,
+        value=1.571,
         step=0.001,
         format="t = %.3f s",
         help="move the slider to explore x(t), v(t), and a(t) at different times.",
@@ -157,7 +157,7 @@ st.markdown(
 )
 
 
-delta_t = st.number_input("Δt (s)", value=7.80, format="%0.3f", step=0.001)
+delta_t = st.number_input("Δt (s)", value=10.0, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
@@ -168,7 +168,7 @@ usr_func = st.radio(
 )
 func_str = st.text_area(
     "",
-    "-9.8",
+    "cos(t)",
     help="use t as the variable, e.g. 2\*t+4, 5\*t^2, sin(t)",
     height=50,
 )
@@ -208,8 +208,8 @@ elif usr_func == "v(t)":
 
 elif usr_func == "a(t)":
 
-    x0 = st.number_input("x₀ (m)", value=100.0, step=0.001, format="%0.3f")
-    v0 = st.number_input("v₀ (m/s)", value=25.0, step=0.001, format="%0.3f")
+    x0 = st.number_input("x₀ (m)", value=0.0, step=0.001, format="%0.3f")
+    v0 = st.number_input("v₀ (m/s)", value=0.0, step=0.001, format="%0.3f")
     ufunc, expr, err = parse_function(func_str)
 
     tau = sp.symbols("tau")  # dummy integration variable to avoid clashing with t
