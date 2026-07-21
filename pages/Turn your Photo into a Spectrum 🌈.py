@@ -226,7 +226,7 @@ def image_to_spectrum(
     return wavelengths, intensities
 
 uploaded_file = st.file_uploader(
-        "upload a photo (.jpg, .png, .heic)", type=["jpg", "png", "heic"]
+        "upload a photo", type=["jpg", "png", "heic"]
     )
 
 if uploaded_file is None:
