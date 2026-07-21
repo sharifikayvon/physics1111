@@ -263,6 +263,6 @@ buf.seek(0)
 st.download_button(
     label="download graph",
     data=buf,
-    file_name=f"{title.replace(' ', '_')}.png",
+    file_name=f"{myspectrum.png",
     mime="image/png",
 )
