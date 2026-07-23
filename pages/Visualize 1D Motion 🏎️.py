@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, FFMpegWriter
+# from matplotlib.animation import FuncAnimation, FFMpegWriter
 import matplotlib as mpl
 import numpy as np
 import streamlit as st
@@ -88,10 +88,16 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
     ]
     cs = [c1, c2, c3]
     vals = [x, v, a]
+    def fmt(val, decimals=3):
+        s = f"{val:.{decimals}f}"
+        if s.startswith("-") and float(s) == 0:
+            s = s[1:]
+        return s
+
     labels = [
-        rf"x({tval:.3f} s) = {x:.3f} m",
-        rf"v({tval:.3f} s) = {v:.3f} m/s",
-        rf"a({tval:.3f} s) = {a:.3f} m/s$^2$",
+        rf"x({fmt(tval)} s) = {fmt(x)} m",
+        rf"v({fmt(tval)} s) = {fmt(v)} m/s",
+        rf"a({fmt(tval)} s) = {fmt(a)} m/s$^2$",
     ]
     for i, (ax, ylabel, arr, c, label) in enumerate(
         zip(axes, ylabels, arrs, cs, labels)
@@ -306,6 +312,9 @@ buf.seek(0)
 st.download_button(
     label="download graph", data=buf, file_name="pva.png", mime="image/png"
 )
+
+
+# FIGURE OUT HOW TO MAKE BELOW FASTER
 
 # makeani = st.checkbox(
 #     "make animation",

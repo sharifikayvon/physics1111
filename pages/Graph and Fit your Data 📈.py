@@ -148,6 +148,7 @@ darkmode = col5.checkbox("dark mode", value=False)
 flipx = col2.checkbox("flip x axis", value=False)
 flipy = col1.checkbox("flip y axis", value=False)
 force_origin = False
+
 if fitline:
     force_origin = st.checkbox("set linear fit y-intercept to 0", value=False)
 
@@ -263,7 +264,6 @@ ax.set_xlabel(xlabel)
 ax.set_ylabel(ylabel)
 ax.set_title(title)
 ax.grid(True, which="both")
-# ax.set_aspect("equal", adjustable='datalim')
 if flipx:
     ax.invert_xaxis()
 if flipy:
