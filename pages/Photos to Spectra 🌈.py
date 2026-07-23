@@ -121,7 +121,7 @@ uploaded_file = st.file_uploader(
         "upload a photo", type=["jpg", "png", "heic"]
     )
 
-darkmode = st.checkbox("Plot the spectrum in dark mode", value=False)
+darkmode = st.checkbox("plot spectrum in dark mode", value=False)
 
 
 if uploaded_file is None:
