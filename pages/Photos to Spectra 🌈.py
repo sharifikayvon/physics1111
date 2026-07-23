@@ -10,11 +10,11 @@ from io import BytesIO
 from scipy.ndimage import gaussian_filter1d
 
 st.set_page_config(
-    page_title="Turn your Photo into a Spectrum", page_icon="🌈", layout="centered"
+    page_title="Photos to Spectra", page_icon="🌈", layout="centered"
 )
 
 st.markdown(
-    "<h2 style='text-align: center'>Turn your Photo into a Spectrum 🌈</h2>",
+    "<h2 style='text-align: center'>Photos to Spectra 🌈</h2>",
     unsafe_allow_html=True,
 )
 register_heif_opener()
@@ -47,9 +47,9 @@ def hue_to_wavelength(hue):
 
 def image_to_spectrum(
     image_path,
-    wavelengths=np.linspace(390, 710, 200),
+    wavelengths=np.linspace(390, 710, 300),
     max_side=1500,
-    fwhm_nm=3.0,
+    fwhm_nm=4.0,
 ):
     """
     Convert an image to a wavelength spectrum.
