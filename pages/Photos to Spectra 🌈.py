@@ -234,8 +234,8 @@ if darkmode:
     c='w'
 ax.plot(wavelengths, intensities, lw=5, c=c)
 
-ax.set_xlabel(r"Wavelength (nm)", fontsize=20)
-ax.set_ylabel(r"Relative Intensity", fontsize=20)
+ax.set_xlabel(r"Wavelength (nm)")
+ax.set_ylabel(r"Normalized Intensity")
 ax.set_xlim(390, 710)
 ax.set_ylim(-0.04, 1.04)
 ax.grid(True, which='both')
@@ -251,7 +251,7 @@ cax = fig.add_axes([pos.x0, pos.y1 + 0.02, pos.width, pos.height * 0.05])
 
 norm = mpl.colors.Normalize(vmin=wavelengths.min(), vmax=wavelengths.max())
 sm = mpl.cm.ScalarMappable(cmap="turbo", norm=norm)
-sm.set_array([])  # required for ScalarMappable
+sm.set_array([])
 
 cbar = fig.colorbar(sm, cax=cax, orientation="horizontal")
 cbar.set_ticks([])
