@@ -82,9 +82,9 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
     axes = axes.flatten()
     axes[2].set_xlabel("Time [s]", fontsize=14)
     ylabels = [
-        "Position [m]",
-        "Velocity [m/s]",
-        r"Acceleration [m/s$^2$]",
+        "position [m]",
+        "velocity [m/s]",
+        r"acceleration [m/s$^2$]",
     ]
     cs = [c1, c2, c3]
     vals = [x, v, a]
