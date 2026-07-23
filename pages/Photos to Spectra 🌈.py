@@ -153,8 +153,8 @@ mpl.rcParams.update(
         "axes.edgecolor": "black",
         "axes.linewidth": 1.2,
         "axes.labelcolor": "black",
-        "axes.labelsize": 20,
-        "axes.titlesize": 20,
+        "axes.labelsize": 24,
+        "axes.titlesize": 24,
         "axes.titlecolor": "black",
         "axes.spines.top": True,
         "axes.spines.right": True,
@@ -180,8 +180,8 @@ mpl.rcParams.update(
         "ytick.color": "black",
         "xtick.labelcolor": "black",
         "ytick.labelcolor": "black",
-        "xtick.labelsize": 16,
-        "ytick.labelsize": 16,
+        "xtick.labelsize": 20,
+        "ytick.labelsize": 20,
         "xtick.minor.ndivs": 5,
         "ytick.minor.ndivs": 5,
         "lines.linewidth": 1.5,
@@ -232,15 +232,15 @@ fig, ax = plt.subplots(figsize=(20, 8))
 c='k'
 if darkmode:
     c='w'
-ax.plot(10*wavelengths, intensities, lw=5, c=c)
+ax.plot(wavelengths, intensities, lw=5, c=c)
 
-ax.set_xlabel(r"Wavelength ($\AA$)", fontsize=20)
+ax.set_xlabel(r"Wavelength (nm)", fontsize=20)
 ax.set_ylabel(r"Relative Intensity", fontsize=20)
-ax.set_xlim(3900, 7100)
+ax.set_xlim(390, 710)
 ax.set_ylim(-0.04, 1.04)
 ax.grid(True, which='both')
 
-# Leave headroom at the top of the figure for the colorbar band
+# Leave room at the top of the figure for the colorbar band
 fig.subplots_adjust(top=0.88)
 
 # Force a draw so get_position() reflects the actual final layout
