@@ -122,9 +122,9 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
             ax.axhline(
                 0,
                 color=czero,
-                lw=2,  # bolder than grid
+                lw=2,  
                 alpha=0.8,
-                zorder=3,  # above grid, below data
+                zorder=3, 
                 linestyle="--",
             )
     return fig
@@ -163,7 +163,7 @@ st.markdown(
 )
 
 
-delta_t = st.number_input("Δt (s)", value=10.0, format="%0.3f", step=0.001)
+delta_t = st.number_input("Δt (s)", value=12.5663, format="%0.3f", step=0.001)
 
 
 t = np.linspace(0, delta_t, int(1e6))
