@@ -80,7 +80,7 @@ def makeplot(x_arr, v_arr, a_arr, t, darkmode):
         3, 1, figsize=(8, 8), sharex=True, sharey=False, constrained_layout=True
     )
     axes = axes.flatten()
-    axes[2].set_xlabel("Time [s]", fontsize=14)
+    axes[2].set_xlabel("time [s]", fontsize=14)
     ylabels = [
         "position [m]",
         "velocity [m/s]",

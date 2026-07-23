@@ -264,8 +264,8 @@ fig.savefig(buf, format="png")
 buf.seek(0)
 
 st.download_button(
-    label="download graph",
+    label="download spectrum",
     data=buf,
-    file_name=f"myspectrum.png",
+    file_name=f"spec.png",
     mime="image/png",
 )
