@@ -125,7 +125,7 @@ darkmode = st.checkbox("plot spectrum in dark mode", value=False)
 
 
 if uploaded_file is None:
-    st.stop()   # halts script execution here until a file is uploaded
+    st.stop() 
 
 image = Image.open(uploaded_file)
 st.image(image, caption=uploaded_file.name, width='stretch')
