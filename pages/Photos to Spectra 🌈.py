@@ -123,6 +123,10 @@ uploaded_file = st.file_uploader(
 
 darkmode = st.checkbox("plot spectrum in dark mode", value=False)
 
+st.markdown(
+    "Code for this is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)."
+)
+
 
 if uploaded_file is None:
     st.stop() 
@@ -270,6 +274,3 @@ st.download_button(
     mime="image/png",
 )
 
-st.markdown(
-    "Code for this is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)."
-)
