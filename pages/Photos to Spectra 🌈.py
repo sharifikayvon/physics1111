@@ -272,5 +272,5 @@ st.download_button(
 )
 
 st.markdown(
-    "Code to generate the spectrum is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)."
+    "Code to generate spectra is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)."
 )
