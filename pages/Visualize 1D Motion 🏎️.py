@@ -7,8 +7,7 @@ from io import BytesIO
 import pandas as pd
 import sympy as sp
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, convert_xor
-from scipy.integrate import cumulative_trapezoid
-from scipy.signal import find_peaks
+
 
 
 st.set_page_config(page_title="Visualize 1D Motion", page_icon="🏎️", layout="centered")
