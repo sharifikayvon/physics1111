@@ -269,3 +269,7 @@ st.download_button(
     file_name=f"spec.png",
     mime="image/png",
 )
+
+st.markdown(
+    "Code for this is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)."
+)
