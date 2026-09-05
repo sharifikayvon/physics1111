@@ -117,9 +117,15 @@ def image_to_spectrum(
 
     return wavelengths, intensities
 
+st.markdown(
+    "code to generate spectra is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)"
+)
+
 uploaded_file = st.file_uploader(
         "upload a photo", type=["jpg", "png", "heic"]
     )
+
+
 
 darkmode = st.checkbox("plot spectrum in dark mode", value=False)
 
@@ -271,6 +277,3 @@ st.download_button(
     mime="image/png",
 )
 
-st.markdown(
-    "code to generate spectra is adapted from [this repository](https://github.com/nialldeacon/espectrally_for_you)"
-)
